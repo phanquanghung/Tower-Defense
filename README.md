@@ -5,10 +5,10 @@ Dự án trò chơi thủ thành (tower defense) của Nguyễn Mạnh Dũng và
 
 #### Author: 
 - heor2807
-#######Contact: [GitHub](https://github.com/heor2807) [Facebook](https://www.facebook.com/srw.king)
+Contact: [GitHub](https://github.com/heor2807) [Facebook](https://www.facebook.com/srw.king)
 
 - manhdung20112000 
-#######Contact: [GitHub](https://github.com/manhdung20112000) [Facebook](https://www.facebook.com/nmd2000)
+Contact: [GitHub](https://github.com/manhdung20112000) [Facebook](https://www.facebook.com/nmd2000)
 
 **Copyright:**
 - Tower Defense assets by Kenney Vleugels for Kenney 
