@@ -1,0 +1,1 @@
+package Entity.Moveable.Enemy;public class NormalEnemy extends Enemy {}

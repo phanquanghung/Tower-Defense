@@ -1,0 +1,1 @@
+package Entity.Immoveable;public class Tower extends GameTile {}

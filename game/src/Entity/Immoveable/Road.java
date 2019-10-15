@@ -1,0 +1,1 @@
+package Entity.Immoveable;public class Road extends GameTile{}

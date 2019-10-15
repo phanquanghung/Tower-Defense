@@ -1,0 +1,1 @@
+package core;/*|===================================================||   This class manages every object in the field    ||===================================================| */public class GameField {}

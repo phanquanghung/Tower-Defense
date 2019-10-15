@@ -1,0 +1,1 @@
+package Entity;/*|==================================================||   This's interface for Tower, Enemy, Bullet, ... ||==================================================| */public class GameEntity {}

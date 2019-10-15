@@ -1,0 +1,1 @@
+package Entity.Immoveable;public class Mountain extends GameTile {}
