@@ -1,1 +1,1 @@
-package Entity.Immoveable.RoadExtend;import Entity.Immoveable.Road;public class Spawner extends Road {}
+package Entity.Immoveable.RoadExtend;import Entity.Immoveable.Road;public class Spawner extends Road {    protected Spawner(double posX, double posY, double width, double height) {        super(posX, posY, width, height);    }}
