@@ -1,1 +1,1 @@
-package Entity.Immoveable;public class Tower extends GameTile {}
+package Entity.Immoveable;public class Tower implements GameTile {}

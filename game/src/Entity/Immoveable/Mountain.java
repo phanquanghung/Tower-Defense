@@ -1,1 +1,1 @@
-package Entity.Immoveable;public class Mountain extends GameTile {}
+package Entity.Immoveable;public class Mountain implements GameTile {}

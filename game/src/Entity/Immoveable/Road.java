@@ -1,1 +1,1 @@
-package Entity.Immoveable;public class Road extends GameTile{}
+package Entity.Immoveable;public class Road implements GameTile{}

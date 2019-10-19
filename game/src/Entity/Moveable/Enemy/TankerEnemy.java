@@ -1,1 +1,1 @@
-package Entity.Moveable.Enemy;public class TankerEnemy extends Enemy {}
+package Entity.Moveable.Enemy;public class TankerEnemy extends Enemy {    protected TankerEnemy(double posX, double posY, double width, double height, double speed, long armor, long health, long reward) {        super(posX, posY, width, height, speed, armor, health, reward);    }}
