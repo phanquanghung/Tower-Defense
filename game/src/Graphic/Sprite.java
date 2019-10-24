@@ -1,1 +1,0 @@
-package Graphic;public class Sprite {}
