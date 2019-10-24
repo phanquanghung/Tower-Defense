@@ -1,1 +1,1 @@
-package Entity.Immoveable;// public class Tower extends GameTile {public interface Tower {    protected Tower(double posX, double posY, double width, double height) {        super(posX, posY, width, height);    }}
+package Entity.Immoveable;// public class Tower extends GameTile {public interface Tower {}

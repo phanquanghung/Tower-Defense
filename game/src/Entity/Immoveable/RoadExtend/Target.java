@@ -1,1 +1,1 @@
-package Entity.Immoveable.RoadExtend;import Entity.Immoveable.Road;public class Target extends Road {    protected Target(double posX, double posY, double width, double height) {        super(posX, posY, width, height);    }}
+package Entity.Immoveable.RoadExtend;import Entity.Immoveable.Road;public class Target extends Road {}

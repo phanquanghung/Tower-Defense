@@ -15,7 +15,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/game/src/Entity/Immoveable/TowerExtend" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/game" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -41,6 +41,17 @@
       </list>
     </option>
   </component>
+  <component name="RunManager">
+    <configuration name="desktop" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="core.Main" />
+      <module name="Tower-Defense" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -52,6 +63,7 @@
       <option name="presentableId" value="Default" />
       <updated>1571890390825</updated>
       <workItem from="1571890391943" duration="712000" />
+      <workItem from="1571891355283" duration="122000" />
     </task>
     <servers />
   </component>
@@ -63,7 +75,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

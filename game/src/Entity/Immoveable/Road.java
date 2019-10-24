@@ -1,1 +1,1 @@
-package Entity.Immoveable;public class Road implements GameTile{    protected Road(double posX, double posY, double width, double height) {        super(posX, posY, width, height);    }}
+package Entity.Immoveable;public class Road implements GameTile {}

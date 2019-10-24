@@ -1,1 +1,1 @@
-package Entity.Immoveable;public class Mountain implements GameTile  {    protected Mountain(double posX, double posY, double width, double height) {        super(posX, posY, width, height);    }}
+package Entity.Immoveable;public class Mountain implements GameTile  {}
