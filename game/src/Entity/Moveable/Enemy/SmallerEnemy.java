@@ -1,1 +1,1 @@
-package Entity.Moveable.Enemy;public class SmallerEnemy extends Enemy {    protected SmallerEnemy(double posX, double posY, double width, double height, double speed, long armor, long health, long reward) {        super(posX, posY, width, height, speed, armor, health, reward);    }}
+package Entity.Moveable.Enemy;import core.Config;import java.awt.*;public class SmallerEnemy extends Enemy {    public SmallerEnemy() {        super(Config.SMALLER_ENEMY_SPEED, Config.SMALLER_ENEMY_ARMOR, Config.SMALLER_ENEMY_HEALTH, Config.NORMAL_ENEMY_REWARD);    }}

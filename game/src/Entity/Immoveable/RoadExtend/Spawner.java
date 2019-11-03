@@ -1,1 +1,1 @@
-package Entity.Immoveable.RoadExtend;import Entity.Immoveable.Road;public class Spawner extends Road {}
+package Entity.Immoveable.RoadExtend;import Entity.Immoveable.Road;public class Spawner extends Road {    private static final int info = 4;    private static int posX, posY;    public static void setPosX(int posX) {        Spawner.posX = posX;    }    public static void setPosY(int posY) {        Spawner.posY = posY;    }    @Override    public void setRoadInfo(int[][] roadTileMap) {        super.setRoadInfo(roadTileMap);    }}

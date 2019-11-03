@@ -1,1 +1,1 @@
-package Entity.Immoveable.RoadExtend;import Entity.Immoveable.Road;public class Target extends Road {}
+package Entity.Immoveable.RoadExtend;import Entity.Immoveable.Road;public class Target extends Road {    private static final int info = 3;    private static int posX, posY;    public static void setPosY(int posY) {        Target.posY = posY;    }    public static void setPosX(int posX) {        Target.posX = posX;    }    @Override    public void setRoadInfo(int[][] roadTileMap) {        super.setRoadInfo(roadTileMap);    }}
