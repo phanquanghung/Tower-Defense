@@ -12,3 +12,4 @@ game/out/production/game/Entity/Moveable/Enemy/NormalEnemy.class
 game/out/production/game/Entity/Moveable/Enemy/SmallerEnemy.class
 game/out/production/game/Entity/Moveable/Enemy/TankerEnemy.class
 game/out/production/game/Graphic/TileMap.class
+*.class
