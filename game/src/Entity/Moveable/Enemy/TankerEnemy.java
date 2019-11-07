@@ -1,1 +1,1 @@
-package Entity.Moveable.Enemy;public class TankerEnemy extends Enemy {    protected TankerEnemy(double posX, double posY, double width, double height, double speed, long armor, long health, long reward) {        super(posX, posY, width, height, speed, armor, health, reward);    }}
+package Entity.Moveable.Enemy;import core.Config;public class TankerEnemy extends Enemy {    public TankerEnemy() {        super(Config.TANKER_ENEMY_SPEED, Config.TANKER_ENEMY_ARMOR, Config.TANKER_ENEMY_HEALTH, Config.TANKER_ENEMY_REWARD);    }}
