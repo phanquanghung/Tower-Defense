@@ -7,6 +7,7 @@ package core;
  */
 
 import Entity.Immoveable.Road;
+import Entity.Immoveable.Tower;
 import Entity.Moveable.Enemy.Enemy;
 import Entity.Moveable.Enemy.NormalEnemy;
 import Graphic.ImageSheet;
@@ -23,6 +24,9 @@ public class GameField {
     private static TileMap road = new TileMap();       //second layer
     private static TileMap rockTree = new TileMap();   //third layer
     private static TileMap spawn = new TileMap();      //final layer
+
+    private static TileMap tower = new TileMap();      //tower layer
+    private static ArrayList<Tower> towers = new ArrayList<>(); //Tower array
 
     private static Road roadInfo = new Road();
 
@@ -64,6 +68,15 @@ public class GameField {
     public void addEnemy(Enemy enemy) {
         GameField.enemies.add(enemy);
     }
+    public ArrayList<Tower> getTowers() {
+        return towers;
+    }
+
+    public TileMap getTower() { return tower; }
+
+    public void addTower(Tower tower) {
+        GameField.towers.add(tower);
+    }
 
     public static void loadMap(){
         //input layer data
@@ -71,6 +84,7 @@ public class GameField {
         road.readFile("Map/road.txt");
         rockTree.readFile("Map/rockTree.txt");
         spawn.readFile("Map/spawn.txt");
+        tower.readFile("Map/spawn.txt");
 
         //print to check
         background.printMapData();
@@ -89,7 +103,14 @@ public class GameField {
     }
 
     public static void loadGameplay(){
-
+        tower.setName("Tower");
+        for (int i = 0; i < Config.MAP_HEIGHT; i++) {
+            for (int j = 0; j < Config.MAP_WIDTH; j++) {
+                if (tower.getTileMap(i,j)==16) tower.setTileMap(i,j,1);
+            }
+        }
+        System.out.println();
+        tower.printMapData();
     }
 
     public void update(long time){
@@ -110,11 +131,11 @@ public class GameField {
         //render 4 layers: background -> road -> treeRock -> spawn
         Render.renderMap(gc, gameField);
         //draw tower
-        /*
+
         for (Tower tower:towers) {
-            tower.draw(root);
+            tower.draw(gc);
         }
-         */
+
 
         /**
          * Draw Enemy
