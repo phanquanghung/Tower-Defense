@@ -1,1 +1,1 @@
-package Entity.Immoveable;import javafx.scene.canvas.GraphicsContext;import javafx.scene.image.Image;// public class Tower extends GameTile {public interface Tower {    void setImg(Image image);    void draw(GraphicsContext gc);    Image getImg();    double getPosX();    double getPosY();    void setPosXY(double posX, double posY);}
+package Entity.Immoveable;// public class Tower extends GameTile {public interface Tower {}
