@@ -14,64 +14,41 @@ import javafx.scene.image.Image;
  */
 
 public abstract class Enemy extends AbstractEntity {
-    private double speed;
-    private long armor, health, reward;
-    private Image img;
+    protected double speed, scale;
+    protected long armor, health, reward;
+    protected Image img;
     private Direction direction;
 
     public enum Direction {
         LEFT, RIGHT, UP, DOWN;
     }
 
-    public Enemy(double posX, double posY, double witdth, double height) {
-        super(posX, posY, witdth, height);
-    }
+//    public Enemy(double posX, double posY, double witdth, double height) {
+//        super(posX, posY, witdth, height);
+//    }
 
-    public Enemy(double speed, long armor, long health, long reward) {
-        super();
-        this.speed = speed;
-        this.armor = armor;
-        this.health = health;
-        this.reward = reward;
-//        this.img = img;
-    }
-
-    public Enemy(double posX, double posY, double width, double height, double speed, long armor, long health, long reward) {
-        super(posX, posY, width, height);
-        this.speed = speed;
-        this.armor = armor;
-        this.health = health;
-        this.reward = reward;
-//        this.img = img;
-    }
+    public Enemy (){}
 
     public void setFirstPos() {
         double[][] arr = GameField.getRoadInfo().getRoadInfo();
         for (int i = 0; i < Config.MAP_HEIGHT; i++) {
             for (int j = 0; j < Config.MAP_WIDTH; j++) {
                 if (arr[i][j] == 2) {
-                    setPosX(j * Config.TILE_VERTICAL + 32);
-                    setPosY(i * Config.TILE_HORIZONTAL + 32);
+                    setPosX(j * Config.TILE_VERTICAL + 31);
+                    setPosY(i * Config.TILE_HORIZONTAL + 31);
                     break;
                 }
             }
         }
     }
 
-    public void setInfo(double speed, long armor, long health, long reward) {
-        setSpeed(speed);
-        setArmor(armor);
-        setHealth(health);
-        setReward(reward);
-        setImg(img);
-    }
 
     public Direction getDirection() {
         return direction;
     }
 
     public double getSpeed() {
-        return speed;
+        return this.speed;
     }
 
     public long getArmor() {
@@ -84,6 +61,10 @@ public abstract class Enemy extends AbstractEntity {
 
     public long getReward() {
         return reward;
+    }
+
+    public double getScale() {
+        return scale;
     }
 
     public void setDirection(Direction direction) {
@@ -114,6 +95,10 @@ public abstract class Enemy extends AbstractEntity {
         this.img = img;
     }
 
+    public void setScale(double scale) {
+        this.scale = scale;
+    }
+
     public void rotateEnemy(GraphicsContext gc, Image image, double tlpx, double tlpy) {
         gc.save(); // saves the current state on stack, including the current transform
         double angle;
@@ -135,8 +120,8 @@ public abstract class Enemy extends AbstractEntity {
                 throw new IllegalStateException("Unexpected value: " + getDirection());
         }
         Render.rotate(gc, angle, tlpx + image.getWidth() / 2, tlpy + image.getHeight() / 2);
-        gc.drawImage(getImg(), tlpx, tlpy);
-        gc.restore(); // back to original state (next before rotation)
+        //gc.drawImage(getImg(), tlpx, tlpy);
+        //gc.restore(); // back to original state (next before rotation)
     }
 
     public Direction findDirection() {
@@ -150,7 +135,7 @@ public abstract class Enemy extends AbstractEntity {
             case UP:
                 double x1U = GameField.getRoadInfo().getRoadInfo(index, jndex + 1); // right
                 double x2U = GameField.getRoadInfo().getRoadInfo(index, jndex - 1); // left
-//                System.out.println("Left is: " + x2U + " Right is: " + x1U);
+                System.out.println("Left is: " + x2U + " Right is: " + x1U);
                 if (x1U > x2U) {
                     System.out.println("RIGHT");
                     return Direction.RIGHT;
@@ -161,7 +146,7 @@ public abstract class Enemy extends AbstractEntity {
             case DOWN:
                 double x1D = GameField.getRoadInfo().getRoadInfo(index, jndex + 1); // left
                 double x2D = GameField.getRoadInfo().getRoadInfo(index, jndex - 1); // right
-//                System.out.println("Left is: " + x1D + " Right is: " + x2D);
+                System.out.println("Left is: " + x1D + " Right is: " + x2D);
                 if (x1D < x2D) {
                     System.out.println("RIGHT");
                     return Direction.RIGHT;
@@ -172,7 +157,7 @@ public abstract class Enemy extends AbstractEntity {
             case LEFT:
                 double x3L = GameField.getRoadInfo().getRoadInfo(index - 1, jndex); //up
                 double x4L = GameField.getRoadInfo().getRoadInfo(index + 1, jndex); //down
-//                System.out.println("Up is: " + x3L + " Down is: " + x4L);
+                System.out.println("Up is: " + x3L + " Down is: " + x4L);
                 if (x3L < x4L) {
                     System.out.println("UP");
                     return Direction.UP;
@@ -183,7 +168,7 @@ public abstract class Enemy extends AbstractEntity {
             case RIGHT:
                 double x3R = GameField.getRoadInfo().getRoadInfo(index - 1, jndex); //
                 double x4R = GameField.getRoadInfo().getRoadInfo(index + 1, jndex);
-//                System.out.println("Up is: " + x3R + " Down is: " + x4R);
+                System.out.println("Up is: " + x3R + " Down is: " + x4R);
                 if (x3R > x4R) {
                     System.out.println("UP");
                     return Direction.UP;
@@ -196,15 +181,8 @@ public abstract class Enemy extends AbstractEntity {
     }
 
     public double getNextRoadValue() {
-
-        //index and jndex round too much (1,5 ~ 2)
-//        Math.floor(getPosY()/Config.TILE_HORIZONTAL*100)/100;
         int index = (int) Math.round(getPosY() / Config.TILE_HORIZONTAL);
         int jndex = (int) Math.round(getPosX() / Config.TILE_VERTICAL);
-//        if ((getPosY()/Config.TILE_HORIZONTAL)%1 > 50) { index = (int) getPosY() / Config.TILE_HORIZONTAL + 1;
-////            if((getPosX()/Config.TILE_VERTICAL)%1 < 5) jndex = (int) getPosX() / Config.TILE_VERTICAL + 1;
-////            else jndex = (int) Math.round(getPosX()/Config.TILE_VERTICAL);
-//        }
         System.out.println("index = " + index + " jndex = " + jndex);
 
         /*
@@ -224,6 +202,9 @@ public abstract class Enemy extends AbstractEntity {
         return 0;
     }
 
+    public void scaleEnemy (GraphicsContext gc){
+
+    }
     public static double evaluateDistance() {
         //to-do: calculate the distance between bullet and enemy?
         return 0;
@@ -245,5 +226,42 @@ public abstract class Enemy extends AbstractEntity {
     public static void destroy(Enemy enemy) {
         //if it must die already, then destroy it
         GameField.getEnemies().remove(enemy);
+    }
+
+    @Override
+    public void draw(GraphicsContext gc) {
+        super.draw(gc);
+        double curPosX = getPosX();
+        double curPosY = getPosY();
+        double speed = getSpeed();
+
+        System.out.println("Current = " + curPosX + " " + curPosY);
+        System.out.println("next Road Value = " + getNextRoadValue());
+        System.out.println("speed = " + speed);
+
+        if (getNextRoadValue()>0){
+            switch (getDirection()){
+                case UP:
+                    setPosY(curPosY - speed);
+                    break;
+                case DOWN:
+                    setPosY(curPosY + speed);
+                    break;
+                case LEFT:
+                    setPosX(curPosX - speed);
+                    break;
+                case RIGHT:
+                    setPosX(curPosX + speed);
+                    break;
+            }
+            if (getNextRoadValue() == 3) {
+                //TODO: Decline player's HP then delete the enemy, shouldn't be 3, can be 1000 or something big
+                //destroy(this);
+            }
+        }
+        else setDirection(findDirection());
+        rotateEnemy(gc, getImg(), getPosX(), getPosY());
+        gc.drawImage(getImg(), getPosX(), getPosY());
+        gc.restore();
     }
 }

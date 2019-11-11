@@ -8,8 +8,7 @@ package core;
 
 import Entity.Immoveable.Road;
 import Entity.Immoveable.Tower;
-import Entity.Moveable.Enemy.Enemy;
-import Entity.Moveable.Enemy.NormalEnemy;
+import Entity.Moveable.Enemy.*;
 import Graphic.ImageSheet;
 import Graphic.Render;
 import Graphic.TileMap;
@@ -80,11 +79,11 @@ public class GameField {
 
     public static void loadMap(){
         //input layer data
-        background.readFile("Map/background.txt");
-        road.readFile("Map/road.txt");
-        rockTree.readFile("Map/rockTree.txt");
-        spawn.readFile("Map/spawn.txt");
-        tower.readFile("Map/spawn.txt");
+        background.readFile("Map/background3.txt");
+        road.readFile("Map/road3.txt");
+        rockTree.readFile("Map/rockTree3.txt");
+        spawn.readFile("Map/spawn3.txt");
+        tower.readFile("Map/spawn3.txt");
 
         //print to check
         background.printMapData();
@@ -117,9 +116,9 @@ public class GameField {
         System.out.println("time = " + time);
 
         if (time/1000000000 > enemies.size()){
-            Enemy enemy = new NormalEnemy();
+            Enemy enemy = new SmallerEnemy();
             System.out.println("new Enemy");
-            enemy.setDirection(Enemy.Direction.UP);
+            enemy.setDirection(Enemy.Direction.UP); //default
             enemies.add(enemy);
         }
         for (Enemy enemy : enemies){
