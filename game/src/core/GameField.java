@@ -107,7 +107,7 @@ public class GameField {
     }
 
     public void draw(GraphicsContext gc, GameField gameField){
-        //render world
+        //render 4 layers: background -> road -> treeRock -> spawn
         Render.renderMap(gc, gameField);
         //draw tower
         /*
