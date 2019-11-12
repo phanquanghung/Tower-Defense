@@ -107,11 +107,11 @@ public abstract class Enemy extends AbstractEntity {
     public void setup(Image img){
         ImageView imageView = new ImageView(img);
         SnapshotParameters sp = new SnapshotParameters();
-        sp.setViewport(new Rectangle2D(0, 0, 64, 64));
+        sp.setViewport(new Rectangle2D(0, 0, Config.TILE_HORIZONTAL, Config.TILE_VERTICAL));
         sp.setFill(Color.TRANSPARENT);
         imageView.setScaleX(getScale());
-        System.out.println("scale = " + getScale());
         imageView.setScaleY(getScale());
+        System.out.println("scale = " + getScale());
         setImg(imageView.snapshot(sp, null));
     }
 
