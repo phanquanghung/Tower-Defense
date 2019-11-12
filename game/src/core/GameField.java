@@ -121,7 +121,7 @@ public class GameField {
         System.out.println("time = " + time);
 
         if (time/1000000000 > enemies.size()){
-            Enemy enemy = new SmallerEnemy();
+            Enemy enemy = new BossEnemy();
             System.out.println("new Enemy");
             enemy.setDirection(Enemy.Direction.UP); //default
             enemies.add(enemy);

@@ -4,8 +4,11 @@ import Entity.AbstractEntity;
 import Graphic.Render;
 import core.Config;
 import core.GameField;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 /*
@@ -99,6 +102,17 @@ public abstract class Enemy extends AbstractEntity {
 
     public void setScale(double scale) {
         this.scale = scale;
+    }
+
+    public void setup(Image img){
+        ImageView imageView = new ImageView(img);
+        SnapshotParameters sp = new SnapshotParameters();
+        sp.setViewport(new Rectangle2D(0, 0, 64, 64));
+        sp.setFill(Color.TRANSPARENT);
+        imageView.setScaleX(getScale());
+        System.out.println("scale = " + getScale());
+        imageView.setScaleY(getScale());
+        setImg(imageView.snapshot(sp, null));
     }
 
     public void rotateEnemy(GraphicsContext gc, Image image, double tlpx, double tlpy) {
