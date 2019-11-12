@@ -15,5 +15,8 @@ public class NormalEnemy extends Enemy{
         setFirstPos();
     }
 
-
+    @Override
+    public double getMaxHealth() {
+        return Config.NORMAL_ENEMY_HEALTH;
+    }
 }

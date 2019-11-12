@@ -6,6 +6,7 @@ import core.Config;
 import core.GameField;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 /*
 |===========================================================================================================|
@@ -42,6 +43,7 @@ public abstract class Enemy extends AbstractEntity {
         }
     }
 
+    public abstract double getMaxHealth ();
 
     public Direction getDirection() {
         return direction;
@@ -200,6 +202,25 @@ public abstract class Enemy extends AbstractEntity {
                 return GameField.getRoadInfo().getRoadInfo((int) index, (int) jndex + 1);
         }
         return 0;
+    }
+
+    public void drawHPBar (GraphicsContext gc){
+        double HP = getHealth()/getMaxHealth();
+        if (HP<1.0){
+            if (HP > 0.6){
+                gc.setFill(Color.GREEN);
+
+            }
+            else if (HP > 0.3) {
+                gc.setFill(Color.ORANGE);
+            }
+            else {
+                gc.setFill(Color.RED);
+            }
+            gc.fillRect(getPosX(), getPosY(), Config.HP_BAR_WIDTH, Config.HP_BAR_HEIGHT);
+            gc.setStroke(Color.BLACK);
+            gc.strokeRect(getPosX(), getPosY(), Config.HP_BAR_WIDTH, Config.HP_BAR_HEIGHT);
+        }
     }
 
     public void scaleEnemy (GraphicsContext gc){

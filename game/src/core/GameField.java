@@ -8,6 +8,7 @@ package core;
 
 import Entity.Immoveable.Road;
 import Entity.Immoveable.Tower;
+import Entity.Moveable.Bullet;
 import Entity.Moveable.Enemy.*;
 import Graphic.ImageSheet;
 import Graphic.Render;
@@ -26,6 +27,8 @@ public class GameField {
 
     private static TileMap tower = new TileMap();      //tower layer
     private static ArrayList<Tower> towers = new ArrayList<>(); //Tower array
+
+    private static ArrayList<Bullet> bullets = new ArrayList<>(); //Bullet array
 
     private static Road roadInfo = new Road();
 
@@ -76,7 +79,9 @@ public class GameField {
     public void addTower(Tower tower) {
         GameField.towers.add(tower);
     }
-
+    public void addBullet(Bullet bullet) {
+        GameField.bullets.add(bullet);
+    }
     public static void loadMap(){
         //input layer data
         background.readFile("Map/background3.txt");
@@ -132,7 +137,7 @@ public class GameField {
         //draw tower
 
         for (Tower tower:towers) {
-            tower.draw(gc);
+            tower.draw(gc, gameField);
         }
 
 
@@ -146,13 +151,17 @@ public class GameField {
         /**
          * Draw Enemy HP bar
          */
-//        for (Enemy enemy:enemies){
-//            enemy.drawHPBar(root);
-//        }
+        for (Enemy enemy:enemies){
+            enemy.drawHPBar(gc);
+        }
 
         /**
          * Draw bullets
          */
+        for(Bullet bullet:bullets){
+            bullet.draw(gc);
+        }
+
 
     }
 }

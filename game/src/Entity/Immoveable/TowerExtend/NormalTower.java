@@ -2,6 +2,7 @@ package Entity.Immoveable.TowerExtend;
 
 import Entity.Immoveable.GameTile;
 import Entity.Immoveable.Tower;
+import Entity.Moveable.Bullet;
 import core.Config;
 import core.GameField;
 import javafx.scene.canvas.GraphicsContext;
@@ -55,8 +56,16 @@ public class NormalTower implements GameTile, Tower {
     }
 
     @Override
-    public void draw(GraphicsContext gc) {
+    public void shoot(Bullet bullet, GraphicsContext gc, GameField gameField) {
+        gameField.addBullet(bullet);
+        bullet.draw(gc);
+    }
+
+    @Override
+    public void draw(GraphicsContext gc, GameField gameField) {
         gc.drawImage(getImgStand(), getPosX(), getPosY());
         gc.drawImage(getImg(), getPosX(), getPosY()-8);
+        Bullet bullet = new Bullet(getPosX(),getPosY(),0,0);
+        shoot(bullet, gc, gameField);
     }
 }

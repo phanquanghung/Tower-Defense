@@ -1,6 +1,8 @@
 package Entity.Immoveable.TowerExtend;
 
 import Entity.Immoveable.Tower;
+import Entity.Moveable.Bullet;
+import core.GameField;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -12,7 +14,7 @@ public class MachineGunTower implements Tower {
     }
 
     @Override
-    public void draw(GraphicsContext gc) {
+    public void draw(GraphicsContext gc, GameField gameField) {
 
     }
 
@@ -38,6 +40,11 @@ public class MachineGunTower implements Tower {
 
     @Override
     public void setPosXY(double posX, double posY) {
+
+    }
+
+    @Override
+    public void shoot(Bullet bullet, GraphicsContext gc, GameField gameField) {
 
     }
 }
