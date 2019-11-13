@@ -13,7 +13,11 @@ import Entity.Moveable.Enemy.*;
 import Graphic.ImageSheet;
 import Graphic.Render;
 import Graphic.TileMap;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 
@@ -26,6 +30,7 @@ public class GameField {
     private static TileMap spawn = new TileMap();      //final layer
 
     private static TileMap tower = new TileMap();      //tower layer
+
     private static ArrayList<Tower> towers = new ArrayList<>(); //Tower array
 
     private static ArrayList<Bullet> bullets = new ArrayList<>(); //Bullet array
@@ -65,6 +70,9 @@ public class GameField {
 
     public static ArrayList<Enemy> getEnemies() {
         return enemies;
+    }
+    public static ArrayList<Bullet> getBullets() {
+        return bullets;
     }
 
     public void addEnemy(Enemy enemy) {
@@ -118,16 +126,20 @@ public class GameField {
     }
 
     public void update(long time){
-        System.out.println("time = " + time);
+//        System.out.println("time = " + time);
 
         if (time/1000000000 > enemies.size()){
-            Enemy enemy = new BossEnemy();
-            System.out.println("new Enemy");
+            Enemy enemy = new NormalEnemy();
+//            System.out.println("new Enemy");
             enemy.setDirection(Enemy.Direction.UP); //default
             enemies.add(enemy);
         }
         for (Enemy enemy : enemies){
             enemy.update();
+        }
+
+        for (Tower tower: towers){
+            tower
         }
     }
 
@@ -139,7 +151,6 @@ public class GameField {
         for (Tower tower:towers) {
             tower.draw(gc, gameField);
         }
-
 
         /**
          * Draw Enemy

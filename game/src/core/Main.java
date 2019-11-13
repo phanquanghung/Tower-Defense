@@ -63,7 +63,7 @@ public class Main extends Application {
             long time = System.nanoTime();
             @Override
             public void handle(long now) {
-                GameController.mouseClicked(theScene, gameField, root);
+                GameController.mouseClicked(theScene, gameField, root, gc);
                 gameField.update(now - time);
                 gameField.draw(gc, gameField);
 
