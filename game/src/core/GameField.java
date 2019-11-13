@@ -77,6 +77,7 @@ public class GameField {
     public void addEnemy(Enemy enemy) {
         GameField.enemies.add(enemy);
     }
+
     public ArrayList<Tower> getTowers() {
         return towers;
     }
@@ -86,9 +87,11 @@ public class GameField {
     public void addTower(Tower tower) {
         GameField.towers.add(tower);
     }
-    public void addBullet(Bullet bullet) {
+
+    public static void addBullet(Bullet bullet) {
         GameField.bullets.add(bullet);
     }
+
     public static void loadMap(){
         //input layer data
         background.readFile("Map/background3.txt");
@@ -142,9 +145,13 @@ public class GameField {
             enemies.get(i).update(gameStage);
         }
 
-//        for (Tower tower: towers){
-//            tower
-//        }
+        for (Tower tower : towers){
+            tower.update(time);
+        }
+
+        for (int i=0; i<bullets.size(); i++){
+            bullets.get(i).update();
+        }
     }
 
     public void draw(GraphicsContext gc, GameField gameField){
@@ -156,21 +163,21 @@ public class GameField {
             tower.draw(gc, gameField);
         }
 
-        /**
+        /*
          * Draw Enemy
          */
         for(Enemy enemy:enemies){
             enemy.draw(gc);
         }
 
-        /**
+        /*
          * Draw Enemy HP bar
          */
         for (Enemy enemy:enemies){
             enemy.drawHPBar(gc);
         }
 
-        /**
+        /*
          * Draw bullets
          */
         for(Bullet bullet:bullets){

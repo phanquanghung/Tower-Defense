@@ -11,6 +11,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class NormalTower implements GameTile, Tower {
     private double speed;
@@ -19,12 +20,16 @@ public class NormalTower implements GameTile, Tower {
     private Image image, stand;
     private double posX;
     private double posY;
+    private Enemy shootingEnemy = null;
+    private Stack<Enemy> enemyStack;
 
     public NormalTower() {
+        super();
         this.speed = Config.NORMAL_BULLET_SPEED;
         this.range = Config.NORMAL_TOWER_RANGE;
         this.strength = Config.NORMAL_BULLET_STRENGTH;
         setImg(GameField.getImageSheet().imageSheet.get(10*23 + 19), GameField.getImageSheet().imageSheet.get(7*23 + 19));
+        enemyStack = new Stack<>();
     }
 
     @Override
@@ -33,9 +38,23 @@ public class NormalTower implements GameTile, Tower {
         this.stand = stand;
     }
 
+    public void addToStack(Enemy enemy){
+        enemyStack.add(enemy);
+    }
+
     public double getRange() {
         return range;
     }
+
+    public void setShootingEnemy(Enemy shootingEnemy) {
+        this.shootingEnemy = shootingEnemy;
+    }
+
+    public Enemy getShootingEnemy() {
+        return shootingEnemy;
+    }
+
+
 
     public void setRange(double range) {
         this.range = range;
@@ -68,36 +87,64 @@ public class NormalTower implements GameTile, Tower {
     }
 
     @Override
-    public void shoot(GraphicsContext gc, GameField gameField) {
-        for (Enemy enemy:gameField.getEnemies()){
-            if (enemy.getDistance() < getRange()){
-                //TODO: tìm vị trí của enemy, vị trí của tower và bắn
-                Bullet bullet = new Bullet(getPosX(),getPosY(),0,0);
-                gameField.addBullet(bullet);
-            }
-        }
-//        Enemy.destroy(GameField.getEnemies().get(0));
+    public void shoot(Enemy enemy) {
+        Bullet bullet = new Bullet(getPosX(),getPosY(),0,0);
+        bullet.setEnemy(enemy);
+        GameField.addBullet(bullet);
     }
 
-    public void update(){
+    public double getSpeed() {
+        return speed;
+    }
+
+    @Override
+    public void update(long time){
+        //TODO: tìm vị trí của enemy, vị trí của tower và bắn
+        //Every time, check if there're enemies in tower range => add to enemy stack
         for (Enemy enemy : GameField.getEnemies()){
-            if (enemy.getDistance() < getRange()){
-                //TODO: tìm vị trí của enemy, vị trí của tower và bắn
-                Bullet bullet = new Bullet(getPosX(),getPosY(),0,0);
-                //GameField.ad
+            if (enemy.evaluateDistance(this) < getRange()){
+                addToStack(enemy);
             }
         }
+
+        Enemy enemy = getShootingEnemy();
+        if (shootingEnemy == null) {
+            if (!enemyStack.isEmpty()) {
+                if (enemyStack.peek() != null && enemyStack.peek().evaluateDistance(this) < getRange()) {
+                    enemy = enemyStack.pop();
+                    setShootingEnemy(enemy);
+                } else {
+                    setShootingEnemy(null);
+                }
+            }
+        } else if (shootingEnemy.evaluateDistance(this) > getRange()) {
+            setShootingEnemy(null);
+        } else {
+            System.out.println("Distance = " + enemy.evaluateDistance(this) + " Added!");
+            shoot(enemy);
+        }
+    }
+
+    public double findAngle(){
+        if (shootingEnemy != null){
+            double x = getShootingEnemy().getPosX() - getPosX();
+            double y = getShootingEnemy().getPosY() - getPosY();
+            double angle = Math.atan2(x, y);
+            if (angle < 0) return Math.abs(angle);
+            else return 2*Math.PI - angle;
+        }
+        return 0;
     }
 
     @Override
     public void draw(GraphicsContext gc, GameField gameField) {
         gc.save(); // saves the current state on stack, including the current transform
-
         gc.drawImage(getImgStand(), getPosX(), getPosY());
-//        double angle= Bullet.findAngle(getPosX()+32, getPosY()+24, GameField.getEnemies());
-//        Render.rotate(gc, angle, getPosX() + 32, getPosY() + 32);
+        double angle = Math.toDegrees(Math.PI + findAngle());
+        System.out.println("ANGLE = " + angle);
+        Render.rotate(gc, angle, getPosX() + 32, getPosY() + 32);
         gc.drawImage(getImg(), getPosX(), getPosY()-8);
-//        gc.restore();
+        gc.restore();
     }
 
 

@@ -1,6 +1,7 @@
 package Entity.Moveable.Enemy;
 
 import Entity.AbstractEntity;
+import Entity.Immoveable.Tower;
 import Graphic.Render;
 import core.Config;
 import core.GameField;
@@ -223,23 +224,29 @@ public abstract class Enemy extends AbstractEntity {
         if (HP<1.0){
             if (HP > 0.6){
                 gc.setFill(Color.GREEN);
+                gc.fillRect(getPosX(), getPosY(), 0.8*Config.HP_BAR_WIDTH, Config.HP_BAR_HEIGHT);
 
             }
             else if (HP > 0.3) {
                 gc.setFill(Color.ORANGE);
+                gc.fillRect(getPosX(), getPosY(), 0.6*Config.HP_BAR_WIDTH, Config.HP_BAR_HEIGHT);
             }
             else {
                 gc.setFill(Color.RED);
+                gc.fillRect(getPosX(), getPosY(), 0.3*Config.HP_BAR_WIDTH, Config.HP_BAR_HEIGHT);
             }
-            gc.fillRect(getPosX(), getPosY(), Config.HP_BAR_WIDTH, Config.HP_BAR_HEIGHT);
             gc.setStroke(Color.BLACK);
             gc.strokeRect(getPosX(), getPosY(), Config.HP_BAR_WIDTH, Config.HP_BAR_HEIGHT);
         }
     }
 
-    public static double evaluateDistance() {
-        //to-do: calculate the distance between bullet and enemy?
-        return 0;
+    public double evaluateDistance(Tower tower) {
+        //to-do: calculate the distance between tower and enemy?
+        double x1 = getPosX() + Config.TILE_VERTICAL/2;
+        double y1 = getPosY() + Config.TILE_HORIZONTAL/2;
+        double x2 = tower.getPosX() + Config.TILE_VERTICAL/2;
+        double y2 = tower.getPosY() + + Config.TILE_HORIZONTAL/2;
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 
     public boolean hitTarget (){
@@ -287,23 +294,14 @@ public abstract class Enemy extends AbstractEntity {
         }
     }
 
-    public final boolean onAttack() {
-        //check if the enemy is under attack
-        return true;
-    }
-
-    public static void doAttack() {
+    public void doAttack(double damage) {
         //enemy harm the defender
-
+        setHealth((long)(getHealth() - damage));
     }
 
     public void destroy(Enemy enemy) {
         //if it must die already, then destroy it
         GameField.getEnemies().remove(this);
-    }
-
-    public double getDistance(){
-        return 1;
     }
 
     @Override
