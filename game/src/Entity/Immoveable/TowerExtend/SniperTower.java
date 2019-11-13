@@ -44,7 +44,7 @@ public class SniperTower implements Tower {
     }
 
     @Override
-    public void shoot(Bullet bullet, GraphicsContext gc, GameField gameField) {
+    public void shoot(GraphicsContext gc, GameField gameField) {
 
     }
 }

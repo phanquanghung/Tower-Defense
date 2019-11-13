@@ -263,6 +263,10 @@ public abstract class Enemy extends AbstractEntity {
         GameField.getEnemies().remove(enemy);
     }
 
+    public double getDistance(){
+        return 1;
+    }
+
     @Override
     public void draw(GraphicsContext gc) {
         super.draw(gc);
@@ -270,9 +274,9 @@ public abstract class Enemy extends AbstractEntity {
         double curPosY = getPosY();
         double speed = getSpeed();
 
-        System.out.println("Current = " + curPosX + " " + curPosY);
-        System.out.println("next Road Value = " + getNextRoadValue());
-        System.out.println("speed = " + speed);
+//        System.out.println("Current = " + curPosX + " " + curPosY);
+//        System.out.println("next Road Value = " + getNextRoadValue());
+//        System.out.println("speed = " + speed);
 
         if (getNextRoadValue()>0){
             switch (getDirection()){
