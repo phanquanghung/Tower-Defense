@@ -16,6 +16,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         //load game information (load in a Object name gameField)
         GameField gameField = new GameField();
+        GameStage gameStage = new GameStage();
 
         //Create new Window
         Render renderGame = new Render();

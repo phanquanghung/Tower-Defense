@@ -255,7 +255,8 @@ public abstract class Enemy extends AbstractEntity {
     }
 
     public static void doAttack() {
-        //harm the enemy
+        //enemy harm the defender
+
     }
 
     public static void destroy(Enemy enemy) {
@@ -289,8 +290,9 @@ public abstract class Enemy extends AbstractEntity {
                     setPosX(curPosX + speed);
                     break;
             }
-            if (getNextRoadValue() == 3) {
+            if (getNextRoadValue() == 100) {
                 //TODO: Decline player's HP then delete the enemy, shouldn't be 3, can be 1000 or something big
+
                 //destroy(this);
             }
         }
