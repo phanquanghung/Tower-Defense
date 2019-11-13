@@ -13,11 +13,8 @@ import Entity.Moveable.Enemy.*;
 import Graphic.ImageSheet;
 import Graphic.Render;
 import Graphic.TileMap;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -38,6 +35,8 @@ public class GameField {
     private static Road roadInfo = new Road();
 
     private static ArrayList<Enemy> enemies = new ArrayList<>(); //Enemies array
+
+    private static GameStage gameStage = new GameStage();
 
     public GameField (){
         loadMap();
@@ -125,22 +124,27 @@ public class GameField {
         tower.printMapData();
     }
 
+    public void gameOver(Stage stage){
+        if (gameStage.gameOver()) Render.closeWindow(stage);
+    }
+
     public void update(long time){
 //        System.out.println("time = " + time);
-
-        if (time/1000000000 > enemies.size()){
-            Enemy enemy = new NormalEnemy();
-//            System.out.println("new Enemy");
+//        System.out.println("Player Money = " + gameStage.getPlayerFinance());
+        if (time/1000000000 > enemies.size()) {
+            Enemy enemy = new SmallerEnemy();
             enemy.setDirection(Enemy.Direction.UP); //default
+            System.out.println("NEW ENEMY");
             enemies.add(enemy);
         }
-        for (Enemy enemy : enemies){
-            enemy.update();
+
+        for (int i=0; i<enemies.size(); i++){
+            enemies.get(i).update(gameStage);
         }
 
-        for (Tower tower: towers){
-            tower
-        }
+//        for (Tower tower: towers){
+//            tower
+//        }
     }
 
     public void draw(GraphicsContext gc, GameField gameField){
@@ -172,7 +176,6 @@ public class GameField {
         for(Bullet bullet:bullets){
             bullet.draw(gc);
         }
-
 
     }
 }

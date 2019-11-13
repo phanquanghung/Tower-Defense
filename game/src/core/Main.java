@@ -16,7 +16,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         //load game information (load in a Object name gameField)
         GameField gameField = new GameField();
-        GameStage gameStage = new GameStage();
+
 
         //Create new Window
         Render renderGame = new Render();
@@ -67,6 +67,7 @@ public class Main extends Application {
                 gameField.update(now - time);
                 gameField.draw(gc, gameField);
 
+                gameField.gameOver(primaryStage);
                 //if(player don't play more, click exit button to exit the game) GameStage.closeWindow(primaryStage);
             }
         };

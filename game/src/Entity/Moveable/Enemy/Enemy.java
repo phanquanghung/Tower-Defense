@@ -4,6 +4,7 @@ import Entity.AbstractEntity;
 import Graphic.Render;
 import core.Config;
 import core.GameField;
+import core.GameStage;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
@@ -111,7 +112,6 @@ public abstract class Enemy extends AbstractEntity {
         sp.setFill(Color.TRANSPARENT);
         imageView.setScaleX(getScale());
         imageView.setScaleY(getScale());
-        System.out.println("scale = " + getScale());
         setImg(imageView.snapshot(sp, null));
     }
 
@@ -151,7 +151,7 @@ public abstract class Enemy extends AbstractEntity {
             case UP:
                 double x1U = GameField.getRoadInfo().getRoadInfo(index, jndex + 1); // right
                 double x2U = GameField.getRoadInfo().getRoadInfo(index, jndex - 1); // left
-                System.out.println("Left is: " + x2U + " Right is: " + x1U);
+                //System.out.println("Left is: " + x2U + " Right is: " + x1U);
                 if (x1U > x2U) {
                     System.out.println("RIGHT");
                     return Direction.RIGHT;
@@ -162,34 +162,34 @@ public abstract class Enemy extends AbstractEntity {
             case DOWN:
                 double x1D = GameField.getRoadInfo().getRoadInfo(index, jndex + 1); // left
                 double x2D = GameField.getRoadInfo().getRoadInfo(index, jndex - 1); // right
-                System.out.println("Left is: " + x1D + " Right is: " + x2D);
+                //System.out.println("Left is: " + x1D + " Right is: " + x2D);
                 if (x1D < x2D) {
-                    System.out.println("RIGHT");
+                    //System.out.println("RIGHT");
                     return Direction.RIGHT;
                 } else {
-                    System.out.println("LEFT");
+                    //System.out.println("LEFT");
                     return Direction.LEFT;
                 }
             case LEFT:
                 double x3L = GameField.getRoadInfo().getRoadInfo(index - 1, jndex); //up
                 double x4L = GameField.getRoadInfo().getRoadInfo(index + 1, jndex); //down
-                System.out.println("Up is: " + x3L + " Down is: " + x4L);
+                //System.out.println("Up is: " + x3L + " Down is: " + x4L);
                 if (x3L < x4L) {
-                    System.out.println("UP");
+                    //System.out.println("UP");
                     return Direction.UP;
                 } else {
-                    System.out.println("DOWN");
+                    //System.out.println("DOWN");
                     return Direction.DOWN;
                 }
             case RIGHT:
                 double x3R = GameField.getRoadInfo().getRoadInfo(index - 1, jndex); //
                 double x4R = GameField.getRoadInfo().getRoadInfo(index + 1, jndex);
-                System.out.println("Up is: " + x3R + " Down is: " + x4R);
+                //System.out.println("Up is: " + x3R + " Down is: " + x4R);
                 if (x3R > x4R) {
-                    System.out.println("UP");
+                    //System.out.println("UP");
                     return Direction.UP;
                 } else {
-                    System.out.println("DOWN");
+                    //System.out.println("DOWN");
                     return Direction.DOWN;
                 }
         }
@@ -199,7 +199,7 @@ public abstract class Enemy extends AbstractEntity {
     public double getNextRoadValue() {
         int index = (int) Math.round(getPosY() / Config.TILE_HORIZONTAL);
         int jndex = (int) Math.round(getPosX() / Config.TILE_VERTICAL);
-        System.out.println("index = " + index + " jndex = " + jndex);
+        //System.out.println("index = " + index + " jndex = " + jndex);
 
         /*
          * This function work properly, do not touch
@@ -237,40 +237,21 @@ public abstract class Enemy extends AbstractEntity {
         }
     }
 
-    public void scaleEnemy (GraphicsContext gc){
-
-    }
     public static double evaluateDistance() {
         //to-do: calculate the distance between bullet and enemy?
         return 0;
     }
 
-    public void update() {
+    public boolean hitTarget (){
+        double x = getPosX();
+        double y = getPosY();
+//        System.out.println("x = " + x + " y = " + y);
+        if (x < - getSpeed() || x > Config.SCREEN_WIDTH + getSpeed()) return true;
+        else if (y < - getSpeed() || y > Config.SCREEN_HEIGHT + getSpeed()) return true;
+        return false;
+    }
+    public void update(GameStage gameStage) {
         //update new status of the enemy
-    }
-
-    public final boolean onAttack() {
-        //check if the enemy is under attack
-        return true;
-    }
-
-    public static void doAttack() {
-        //enemy harm the defender
-
-    }
-
-    public static void destroy(Enemy enemy) {
-        //if it must die already, then destroy it
-        GameField.getEnemies().remove(enemy);
-    }
-
-    public double getDistance(){
-        return 1;
-    }
-
-    @Override
-    public void draw(GraphicsContext gc) {
-        super.draw(gc);
         double curPosX = getPosX();
         double curPosY = getPosY();
         double speed = getSpeed();
@@ -294,13 +275,40 @@ public abstract class Enemy extends AbstractEntity {
                     setPosX(curPosX + speed);
                     break;
             }
-            if (getNextRoadValue() == 100) {
-                //TODO: Decline player's HP then delete the enemy, shouldn't be 3, can be 1000 or something big
-
-                //destroy(this);
-            }
         }
         else setDirection(findDirection());
+
+        if (hitTarget()) {
+            //TODO: Decline player's HP then delete the enemy, shouldn't be 3, can be 1000 or something big
+            gameStage.decreaseHP();
+            System.out.println("CROSS!");
+            System.out.println("Player HP = " + gameStage.getPlayerHP());
+            destroy(this);
+        }
+    }
+
+    public final boolean onAttack() {
+        //check if the enemy is under attack
+        return true;
+    }
+
+    public static void doAttack() {
+        //enemy harm the defender
+
+    }
+
+    public void destroy(Enemy enemy) {
+        //if it must die already, then destroy it
+        GameField.getEnemies().remove(this);
+    }
+
+    public double getDistance(){
+        return 1;
+    }
+
+    @Override
+    public void draw(GraphicsContext gc) {
+        super.draw(gc);
         rotateEnemy(gc, getImg(), getPosX(), getPosY());
         gc.drawImage(getImg(), getPosX(), getPosY());
         gc.restore();
