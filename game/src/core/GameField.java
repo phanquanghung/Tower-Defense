@@ -27,21 +27,15 @@ public class GameField {
     private static TileMap road = new TileMap();       //second layer
     private static TileMap rockTree = new TileMap();   //third layer
     private static TileMap spawn = new TileMap();      //final layer
-
     private static TileMap tower = new TileMap();      //tower layer
 
     private static ArrayList<Tower> towers = new ArrayList<>(); //Tower array
-
     private static ArrayList<Bullet> bullets = new ArrayList<>(); //Bullet array
-
     private static Queue<Bullet> removingBullet = new LinkedList<>(); //Bullet has been shoot and hit the target
-
-    private static Road roadInfo = new Road();
-
     private static ArrayList<Enemy> enemies = new ArrayList<>(); //Enemies array
-
     private static Queue<Enemy> deathEnemy = new LinkedList<>(); //Enemies has been killed or go through the map
 
+    private static Road roadInfo = new Road();
     private static GameStage gameStage = new GameStage();
 
     public GameField (){
@@ -145,15 +139,15 @@ public class GameField {
     public void gameOver(Stage stage){
         if (gameStage.gameOver()) Render.closeWindow(stage);
     }
+
     private long tickLastSpawn;
     public void update(long time){
-//        System.out.println("time = " + time);
-//        System.out.println("Player Money = " + gameStage.getPlayerFinance());
-
+        //System.out.println("****************Player Money = " + gameStage.getPlayerFinance());
+//        System.out.println("Player Heart = " + gameStage.getPlayerHP());
         if ((time - tickLastSpawn >= 10E8)) {
             Enemy enemy = new SmallerEnemy();
             enemy.setDirection(Enemy.Direction.UP); //default
-            System.out.println("NEW ENEMY");
+//            System.out.println("NEW ENEMY");
             tickLastSpawn = time;
             enemies.add(enemy);
         }
@@ -171,14 +165,17 @@ public class GameField {
         }
 
         while (!deathEnemy.isEmpty()) enemies.remove(deathEnemy.poll());
-        while (!removingBullet.isEmpty()) bullets.remove(removingBullet.poll());
+        while (!removingBullet.isEmpty()) bullets.remove(removingBullet.poll()); System.out.println("Delete");
+        System.out.println(bullets.size());
     }
 
     public void draw(GraphicsContext gc, GameField gameField){
         //render 4 layers: background -> road -> treeRock -> spawn
         Render.renderMap(gc, gameField);
-        //draw tower
 
+        /*
+         * Draw Tower
+         */
         for (Tower tower:towers) {
             tower.draw(gc, gameField);
         }
@@ -189,13 +186,6 @@ public class GameField {
         for(Enemy enemy:enemies){
             enemy.draw(gc);
         }
-
-        /*
-         * Draw Enemy HP bar
-         */
-//        for (Enemy enemy:enemies){
-//            enemy.drawHPBar(gc);
-//        }
 
         /*
          * Draw bullets

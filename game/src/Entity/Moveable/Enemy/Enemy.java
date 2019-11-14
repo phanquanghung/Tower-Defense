@@ -226,16 +226,16 @@ public abstract class Enemy extends AbstractEntity {
             gc.fillRect(getPosX(), getPosY(), Config.HP_BAR_WIDTH, Config.HP_BAR_HEIGHT);
             if (HP > 0.6){
                 gc.setFill(Color.GREEN);
-                gc.fillRect(getPosX(), getPosY(), 0.8*Config.HP_BAR_WIDTH, Config.HP_BAR_HEIGHT);
+                gc.fillRect(getPosX(), getPosY(), HP*Config.HP_BAR_WIDTH, Config.HP_BAR_HEIGHT);
 
             }
             else if (HP > 0.3) {
                 gc.setFill(Color.ORANGE);
-                gc.fillRect(getPosX(), getPosY(), 0.6*Config.HP_BAR_WIDTH, Config.HP_BAR_HEIGHT);
+                gc.fillRect(getPosX(), getPosY(), HP*Config.HP_BAR_WIDTH, Config.HP_BAR_HEIGHT);
             }
             else {
                 gc.setFill(Color.RED);
-                gc.fillRect(getPosX(), getPosY(), 0.3*Config.HP_BAR_WIDTH, Config.HP_BAR_HEIGHT);
+                gc.fillRect(getPosX(), getPosY(), HP*Config.HP_BAR_WIDTH, Config.HP_BAR_HEIGHT);
             }
             gc.setStroke(Color.BLACK);
             gc.strokeRect(getPosX(), getPosY(), Config.HP_BAR_WIDTH, Config.HP_BAR_HEIGHT);
@@ -255,8 +255,8 @@ public abstract class Enemy extends AbstractEntity {
         double x = getPosX();
         double y = getPosY();
 //        System.out.println("x = " + x + " y = " + y);
-        if (x < - getSpeed() || x > Config.SCREEN_WIDTH + getSpeed()) return true;
-        else if (y < - getSpeed() || y > Config.SCREEN_HEIGHT + getSpeed()) return true;
+        if (x < - getSpeed()*100 || x > Config.SCREEN_WIDTH + getSpeed()) return true;
+        else if (y < - getSpeed()*100 || y > Config.SCREEN_HEIGHT + getSpeed()) return true;
         return false;
     }
     public void update(GameStage gameStage) {
@@ -297,8 +297,13 @@ public abstract class Enemy extends AbstractEntity {
 
         if (getHealth()<0) {
             //TODO: Earn coin
+            earnMoney();
             destroy(this);
         }
+    }
+
+    public void earnMoney(){
+        GameStage.earnMoney((int) getReward());
     }
 
     public void doAttack(double damage) {

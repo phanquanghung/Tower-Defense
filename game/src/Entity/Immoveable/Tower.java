@@ -13,6 +13,7 @@ import java.util.Stack;
 public abstract class Tower implements TowerInterface{
     private double speed;
     private double range;
+    private long cost;
     private double strength;
     private Image image, stand;
     private double posX;
@@ -25,6 +26,14 @@ public abstract class Tower implements TowerInterface{
         setSpeed(speed);
         setStrength(strength);
         enemyQueue = new LinkedList<>();
+    }
+
+    public void setCost(long cost) {
+        this.cost = cost;
+    }
+
+    public long getCost() {
+        return cost;
     }
 
     //@Override

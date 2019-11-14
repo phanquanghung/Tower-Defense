@@ -5,18 +5,26 @@ import Entity.Moveable.Bullet;
 import Entity.Moveable.Enemy.Enemy;
 import core.Config;
 import core.GameField;
+import core.GameStage;
 
 public class NormalTower extends Tower {
 
     public NormalTower() {
         super(Config.NORMAL_BULLET_SPEED, Config.NORMAL_TOWER_RANGE, Config.NORMAL_BULLET_STRENGTH);
         setImg(GameField.getImageSheet().imageSheet.get(10*23 + 19), GameField.getImageSheet().imageSheet.get(7*23 + 19));
+        setCost(Config.NORMAL_TOWER_COST);
+        GameStage.buyTower((int)getCost());
     }
 
+    protected long tickDown = 0;
     public void shoot(Enemy enemy) {
-        Bullet bullet = new Bullet(getPosX(),getPosY(),0,0);
-        bullet.setEnemy(enemy);
-        GameField.addBullet(bullet);
+        if (tickDown-- > 0) return;
+        if (shootingEnemy != null) {
+            tickDown = (int) getSpeed();
+            Bullet bullet = new Bullet(getPosX(),getPosY(),0,0);
+            bullet.setEnemy(enemy);
+            GameField.addBullet(bullet);
+        }
     }
 
     @Override
@@ -39,7 +47,7 @@ public class NormalTower extends Tower {
                     setShootingEnemy(null);
                 }
             }
-        } else if (shootingEnemy.evaluateDistance(this) > getRange() || (enemy.getHealth()<0)) {
+        } else if (shootingEnemy.evaluateDistance(this) > getRange() || (shootingEnemy.getHealth()<0)) {
             setShootingEnemy(null);
         } else {
             //System.out.println("Distance = " + enemy.evaluateDistance(this) + " Added!");
