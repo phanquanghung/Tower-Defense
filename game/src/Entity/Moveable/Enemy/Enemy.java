@@ -221,7 +221,9 @@ public abstract class Enemy extends AbstractEntity {
 
     public void drawHPBar (GraphicsContext gc){
         double HP = getHealth()/getMaxHealth();
-        if (HP<1.0){
+        if (HP<1.0 && HP>0){
+            gc.setFill(Color.BLACK);
+            gc.fillRect(getPosX(), getPosY(), Config.HP_BAR_WIDTH, Config.HP_BAR_HEIGHT);
             if (HP > 0.6){
                 gc.setFill(Color.GREEN);
                 gc.fillRect(getPosX(), getPosY(), 0.8*Config.HP_BAR_WIDTH, Config.HP_BAR_HEIGHT);
@@ -292,6 +294,11 @@ public abstract class Enemy extends AbstractEntity {
             System.out.println("Player HP = " + gameStage.getPlayerHP());
             destroy(this);
         }
+
+        if (getHealth()<0) {
+            //TODO: Earn coin
+            destroy(this);
+        }
     }
 
     public void doAttack(double damage) {
@@ -301,12 +308,13 @@ public abstract class Enemy extends AbstractEntity {
 
     public void destroy(Enemy enemy) {
         //if it must die already, then destroy it
-        GameField.getEnemies().remove(this);
+        GameField.getDeathEnemy().add(enemy);
     }
 
     @Override
     public void draw(GraphicsContext gc) {
         super.draw(gc);
+        drawHPBar(gc);
         rotateEnemy(gc, getImg(), getPosX(), getPosY());
         gc.drawImage(getImg(), getPosX(), getPosY());
         gc.restore();

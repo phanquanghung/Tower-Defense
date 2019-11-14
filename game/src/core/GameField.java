@@ -17,6 +17,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class GameField {
     private static ImageSheet imageSheet = new ImageSheet(); //tiled sheet
@@ -32,15 +34,27 @@ public class GameField {
 
     private static ArrayList<Bullet> bullets = new ArrayList<>(); //Bullet array
 
+    private static Queue<Bullet> removingBullet = new LinkedList<>(); //Bullet has been shoot and hit the target
+
     private static Road roadInfo = new Road();
 
     private static ArrayList<Enemy> enemies = new ArrayList<>(); //Enemies array
+
+    private static Queue<Enemy> deathEnemy = new LinkedList<>(); //Enemies has been killed or go through the map
 
     private static GameStage gameStage = new GameStage();
 
     public GameField (){
         loadMap();
         loadGameplay();
+    }
+
+    public static Queue<Enemy> getDeathEnemy() {
+        return deathEnemy;
+    }
+
+    public static Queue<Bullet> getRemovingBullet() {
+        return removingBullet;
     }
 
     public static ImageSheet getImageSheet(){
@@ -70,6 +84,7 @@ public class GameField {
     public static ArrayList<Enemy> getEnemies() {
         return enemies;
     }
+
     public static ArrayList<Bullet> getBullets() {
         return bullets;
     }
@@ -130,14 +145,16 @@ public class GameField {
     public void gameOver(Stage stage){
         if (gameStage.gameOver()) Render.closeWindow(stage);
     }
-
+    private long tickLastSpawn;
     public void update(long time){
 //        System.out.println("time = " + time);
 //        System.out.println("Player Money = " + gameStage.getPlayerFinance());
-        if (time/1000000000 > enemies.size()) {
+
+        if ((time - tickLastSpawn >= 10E8)) {
             Enemy enemy = new SmallerEnemy();
             enemy.setDirection(Enemy.Direction.UP); //default
             System.out.println("NEW ENEMY");
+            tickLastSpawn = time;
             enemies.add(enemy);
         }
 
@@ -146,12 +163,15 @@ public class GameField {
         }
 
         for (Tower tower : towers){
-            tower.update(time);
+            tower.update();
         }
 
         for (int i=0; i<bullets.size(); i++){
             bullets.get(i).update();
         }
+
+        while (!deathEnemy.isEmpty()) enemies.remove(deathEnemy.poll());
+        while (!removingBullet.isEmpty()) bullets.remove(removingBullet.poll());
     }
 
     public void draw(GraphicsContext gc, GameField gameField){
@@ -173,9 +193,9 @@ public class GameField {
         /*
          * Draw Enemy HP bar
          */
-        for (Enemy enemy:enemies){
-            enemy.drawHPBar(gc);
-        }
+//        for (Enemy enemy:enemies){
+//            enemy.drawHPBar(gc);
+//        }
 
         /*
          * Draw bullets

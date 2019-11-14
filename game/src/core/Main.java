@@ -1,7 +1,5 @@
 package core;
 
-//import Entity.Moveable.Enemy.Enemy;
-//import Entity.Moveable.Enemy.NormalEnemy;
 import Graphic.Render;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -12,6 +10,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+
     @Override
     public void start(Stage primaryStage) {
         //load game information (load in a Object name gameField)
@@ -56,7 +55,7 @@ public class Main extends Application {
         | Game loop
          */
 //        Enemy enemy = new NormalEnemy();
-//        //System.out.println("new Enemy");
+//        System.out.println("new Enemy");
 //        enemy.setDirection(Enemy.Direction.UP);
 //        GameField.getEnemies().add(enemy);
         AnimationTimer timer = new AnimationTimer() {
