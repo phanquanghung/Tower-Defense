@@ -10,7 +10,7 @@ import core.GameStage;
 public class NormalTower extends Tower {
 
     public NormalTower() {
-        super(Config.NORMAL_BULLET_SPEED, Config.NORMAL_TOWER_RANGE, Config.NORMAL_BULLET_STRENGTH);
+        super(Config.NORMAL_TOWER_SPEED, Config.NORMAL_TOWER_RANGE, Config.NORMAL_BULLET_STRENGTH);
         setImg(GameField.getImageSheet().imageSheet.get(10*23 + 19), GameField.getImageSheet().imageSheet.get(7*23 + 19));
         setCost(Config.NORMAL_TOWER_COST);
         GameStage.buyTower((int)getCost());

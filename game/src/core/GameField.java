@@ -38,7 +38,7 @@ public class GameField {
     private static Road roadInfo = new Road();
     private static GameStage gameStage = new GameStage();
 
-    public GameField (){
+    public GameField() {
         loadMap();
         loadGameplay();
     }
@@ -51,15 +51,15 @@ public class GameField {
         return removingBullet;
     }
 
-    public static ImageSheet getImageSheet(){
+    public static ImageSheet getImageSheet() {
         return imageSheet;
     }
 
-    public TileMap getBackground (){
+    public TileMap getBackground() {
         return background;
     }
 
-    public TileMap getRoad (){
+    public TileMap getRoad() {
         return road;
     }
 
@@ -91,7 +91,9 @@ public class GameField {
         return towers;
     }
 
-    public TileMap getTower() { return tower; }
+    public TileMap getTower() {
+        return tower;
+    }
 
     public void addTower(Tower tower) {
         GameField.towers.add(tower);
@@ -101,7 +103,7 @@ public class GameField {
         GameField.bullets.add(bullet);
     }
 
-    public static void loadMap(){
+    public static void loadMap() {
         //input layer data
         background.readFile("Map/background3.txt");
         road.readFile("Map/road3.txt");
@@ -125,25 +127,26 @@ public class GameField {
         roadInfo.printTestRoadInfo();
     }
 
-    public static void loadGameplay(){
+    public static void loadGameplay() {
         tower.setName("Tower");
         for (int i = 0; i < Config.MAP_HEIGHT; i++) {
             for (int j = 0; j < Config.MAP_WIDTH; j++) {
-                if (tower.getTileMap(i,j)==16) tower.setTileMap(i,j,1);
+                if (tower.getTileMap(i, j) == 16) tower.setTileMap(i, j, 1);
             }
         }
         System.out.println();
         tower.printMapData();
     }
 
-    public void gameOver(Stage stage){
+    public void gameOver(Stage stage) {
         if (gameStage.gameOver()) Render.closeWindow(stage);
     }
 
     private long tickLastSpawn;
-    public void update(long time){
-        //System.out.println("****************Player Money = " + gameStage.getPlayerFinance());
-//        System.out.println("Player Heart = " + gameStage.getPlayerHP());
+
+    public void update(long time) {
+        System.out.println("****************Player Money = " + gameStage.getPlayerFinance());
+        System.out.println("Player Heart = " + gameStage.getPlayerHP());
         if ((time - tickLastSpawn >= 10E8)) {
             Enemy enemy = new SmallerEnemy();
             enemy.setDirection(Enemy.Direction.UP); //default
@@ -152,45 +155,48 @@ public class GameField {
             enemies.add(enemy);
         }
 
-        for (int i=0; i<enemies.size(); i++){
+        for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).update(gameStage);
         }
 
-        for (Tower tower : towers){
+        for (Tower tower : towers) {
             tower.update();
         }
 
-        for (int i=0; i<bullets.size(); i++){
+        for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).update();
         }
 
         while (!deathEnemy.isEmpty()) enemies.remove(deathEnemy.poll());
-        while (!removingBullet.isEmpty()) bullets.remove(removingBullet.poll()); System.out.println("Delete");
-        System.out.println(bullets.size());
+        while (!removingBullet.isEmpty()) {
+            bullets.remove(removingBullet.poll());
+            System.out.println("Delete");
+            System.out.println(bullets.size());
+        }
     }
 
-    public void draw(GraphicsContext gc, GameField gameField){
+    public void draw(GraphicsContext gc, GameField gameField) {
         //render 4 layers: background -> road -> treeRock -> spawn
         Render.renderMap(gc, gameField);
 
         /*
          * Draw Tower
          */
-        for (Tower tower:towers) {
+        for (Tower tower : towers) {
             tower.draw(gc, gameField);
         }
 
         /*
          * Draw Enemy
          */
-        for(Enemy enemy:enemies){
+        for (Enemy enemy : enemies) {
             enemy.draw(gc);
         }
 
         /*
          * Draw bullets
          */
-        for(Bullet bullet:bullets){
+        for (Bullet bullet : bullets) {
             bullet.draw(gc);
         }
 
