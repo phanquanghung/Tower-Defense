@@ -99,7 +99,34 @@ public abstract class Tower implements TowerInterface{
     }
 
     @Override
-    public void update(){}
+    public void update(){
+        for (Enemy enemy : GameField.getEnemies()){
+            if (enemy.evaluateDistance(this) < getRange() && !(enemyQueue.contains(enemy))){
+                addToQueue(enemy);
+            }
+        }
+
+        Enemy enemy = getShootingEnemy();
+        if (shootingEnemy == null) {
+            if (!enemyQueue.isEmpty()) {
+                enemy = enemyQueue.poll();
+                if (enemy != null && enemy.evaluateDistance(this) < getRange()) {
+                    setShootingEnemy(enemy);
+                } else {
+                    setShootingEnemy(null);
+                }
+            }
+        } else if (shootingEnemy.evaluateDistance(this) > getRange() || (shootingEnemy.getHealth()<0)) {
+            setShootingEnemy(null);
+        } else {
+            //System.out.println("Distance = " + enemy.evaluateDistance(this) + " Added!");
+            shoot(enemy);
+        }
+    }
+
+    public void shoot (Enemy enemy){
+
+    }
 
     @Override
     public void setPosXY(double posX, double posY) {

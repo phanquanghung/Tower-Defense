@@ -148,7 +148,7 @@ public class GameField {
         System.out.println("****************Player Money = " + gameStage.getPlayerFinance());
         System.out.println("Player Heart = " + gameStage.getPlayerHP());
         if ((time - tickLastSpawn >= 10E8)) {
-            Enemy enemy = new SmallerEnemy();
+            Enemy enemy = new NormalEnemy();
             enemy.setDirection(Enemy.Direction.UP); //default
 //            System.out.println("NEW ENEMY");
             tickLastSpawn = time;

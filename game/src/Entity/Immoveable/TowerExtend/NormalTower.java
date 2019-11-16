@@ -17,6 +17,7 @@ public class NormalTower extends Tower {
     }
 
     protected long tickDown = 0;
+    @Override
     public void shoot(Enemy enemy) {
         if (tickDown-- > 0) return;
         if (shootingEnemy != null) {
