@@ -1,1 +1,108 @@
-package core;import Entity.Immoveable.Tower;import Entity.Immoveable.TowerExtend.RocketTower;import Graphic.ImageSheet;import Graphic.TileMap;import javafx.event.EventHandler;import javafx.scene.Group;import javafx.scene.Scene;import javafx.scene.canvas.GraphicsContext;import javafx.scene.input.MouseButton;import javafx.scene.input.MouseEvent;/** * This class manage input event from player */public class GameController {    /**     * Mouse down handler.     *     * @param mouseEvent the mouse button you press down.     */    final void mouseDownHandler(MouseEvent mouseEvent) {//		mouseEvent.getButton(); // which mouse button?//		// Screen coordinate. Remember to convert to field coordinate//		drawer.screenToFieldPosX(mouseEvent.getX());//		drawer.screenToFieldPosY(mouseEvent.getY());    }    /**     * Mouse up handler.     *     * @param mouseEvent the mouse button you release up.     */    final void mouseUpHandler(MouseEvent mouseEvent) {//		mouseEvent.getButton(); // which mouse button?//		// Screen coordinate. Remember to convert to field coordinate//		drawer.screenToFieldPosX(mouseEvent.getX());//		drawer.screenToFieldPosY(mouseEvent.getY());    }    static void mouseClicked (Scene theScene, GameField gameField, Group root, GraphicsContext gc){        theScene.setOnMouseClicked(new EventHandler<MouseEvent>()        {            public void handle(MouseEvent e)            {                MouseButton button = e.getButton();                if(button==MouseButton.SECONDARY){//                    System.out.println("aloooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");//                    for (Tower tower:gameField.getTowers()) {//                        tower.shoot(gc, gameField);//                    }                } else {                    int ver = (int) e.getY() / Config.TILE_VERTICAL;                    int hor = (int) e.getX() / Config.TILE_HORIZONTAL;                    if (GameStage.hasEnoughMoney((int)Config.NORMAL_TOWER_COST)){                        if (gameField.getSpawn().getTileMap(ver, hor) == 16) {                            towerMenu(root, gameField.getImageSheet(), gameField.getSpawn(), ver, hor, gameField.getTower(), gameField);                        }                    }                    else {System.out.println("DON'T HAVE ENOUGH MONEY DUDE!!");}                }            }        });    }    private static void towerMenu(Group root, ImageSheet imageSheet, TileMap spawn, int ver, int hor, TileMap towerTM, GameField gameField) {/*        Image standGround = imageSheet.getImage(5*23 + 14);        ImageView ivGround = new ImageView(standGround);        ivGround.setLayoutX((hor)*Config.TILE_HORIZONTAL);        ivGround.setLayoutY((ver)*Config.TILE_VERTICAL);        Image towerStand = imageSheet.getImage(7*23 + 19);        ImageView ivStand = new ImageView(towerStand);        ivStand.setLayoutX((hor)*Config.TILE_HORIZONTAL);        ivStand.setLayoutY((ver)*Config.TILE_VERTICAL);        Image normalTower = imageSheet.getImage(10*23 + 19);        ImageView iv = new ImageView(normalTower);        iv.setLayoutX((hor)*Config.TILE_HORIZONTAL);        iv.setLayoutY((ver)*Config.TILE_VERTICAL - 8);//        root.getChildren().addAll(ivGround, ivStand, iv);*/        towerTM.setTileMap (ver,hor,2);        //towerTM.printMapData();        Tower newTower = new RocketTower() ;        newTower.setPosXY((hor)*Config.TILE_HORIZONTAL,(ver)*Config.TILE_VERTICAL);        gameField.addTower(newTower);    }}
+package core;
+import Entity.Immoveable.Tower;
+import Entity.Immoveable.TowerExtend.MachineGunTower;
+import Entity.Immoveable.TowerExtend.NormalTower;
+import Graphic.ImageSheet;
+import Graphic.TileMap;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+
+/**
+ * This class manage input event from player
+ */
+public class GameController {
+    /**
+     * Mouse down handler.
+     *
+     * @param mouseEvent the mouse button you press down.
+     */
+    final void mouseDownHandler(MouseEvent mouseEvent) {
+//		mouseEvent.getButton(); // which mouse button?
+//		// Screen coordinate. Remember to convert to field coordinate
+//		drawer.screenToFieldPosX(mouseEvent.getX());
+//		drawer.screenToFieldPosY(mouseEvent.getY());
+    }
+
+    /**
+     * Mouse up handler.
+     *
+     * @param mouseEvent the mouse button you release up.
+     */
+    final void mouseUpHandler(MouseEvent mouseEvent) {
+//		mouseEvent.getButton(); // which mouse button?
+//		// Screen coordinate. Remember to convert to field coordinate
+//		drawer.screenToFieldPosX(mouseEvent.getX());
+//		drawer.screenToFieldPosY(mouseEvent.getY());
+    }
+
+    static void menu (Scene theScene, GameField gameField, Group root, GraphicsContext gc, Stage primaryStage){
+        Image title = new Image("Graphic/title.png");
+        gc.drawImage(title,0,0);
+        Button play = new Button("PLAY");
+        root.getChildren().add(play);
+        play.setLayoutX(0.5*Config.TILE_HORIZONTAL*(Config.MAP_WIDTH-1));
+        play.setLayoutY(0.5*Config.TILE_VERTICAL*(Config.MAP_HEIGHT-1));
+        primaryStage.show();
+        play.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                GameStage.playGame(primaryStage, theScene, gameField, root, gc);
+                play.setVisible(false);
+                play.setDisable(true);
+            }
+        });
+
+    }
+
+    static void mouseClicked (Scene theScene, GameField gameField, Group root, GraphicsContext gc, ToggleGroup towerToggle, ToggleButton normalTowerButton, ToggleButton machineGunTowerButton){
+        String towerSelected = new String();
+        if (towerToggle.getSelectedToggle() == normalTowerButton) {
+            towerSelected = "Normal Tower";
+        }
+        else if (towerToggle.getSelectedToggle() == machineGunTowerButton) {
+            towerSelected = "Machine Gun Tower";
+        }
+        String finalTowerSelected = towerSelected;
+        theScene.setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
+            public void handle(MouseEvent e)
+            {
+                MouseButton button = e.getButton();
+                    int ver = (int) e.getY() / Config.TILE_VERTICAL;
+                    int hor = (int) e.getX() / Config.TILE_HORIZONTAL;
+                    if (GameStage.hasEnoughMoney((int)Config.NORMAL_TOWER_COST)){
+                        if (gameField.getSpawn().getTileMap(ver, hor) == 16) {
+                            towerMenu(root, gameField.getImageSheet(), gameField.getSpawn(), ver, hor, gameField.getTower(), gameField, finalTowerSelected);
+                        }
+                    }
+                    else {System.out.println("DON'T HAVE ENOUGH MONEY DUDE!!");}
+            }
+        });
+    }
+
+    private static void towerMenu(Group root, ImageSheet imageSheet, TileMap spawn, int ver, int hor, TileMap towerTM, GameField gameField, String towerSelected) {
+        Tower newTower;
+        if (towerSelected == "Normal Tower"){
+            towerTM.setTileMap(ver,hor,2);
+            //towerTM.printMapData();
+            newTower = new NormalTower();
+        } else if (towerSelected == "Machine Gun Tower") {
+            towerTM.setTileMap(ver,hor,3);
+            //towerTM.printMapData();
+            newTower = new MachineGunTower();
+        } else return;
+        newTower.setPosXY((hor)*Config.TILE_HORIZONTAL,(ver)*Config.TILE_VERTICAL);
+        gameField.addTower(newTower);
+    }
+}

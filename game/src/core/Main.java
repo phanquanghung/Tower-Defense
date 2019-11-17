@@ -7,6 +7,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -25,6 +26,10 @@ public class Main extends Application {
         Render.generateWindow(primaryStage, root, theScene);
         root.getChildren().addAll(canvas);
 
+        /*
+        | Menu game (play (then choice level), credit or tutorial, choice level, load map, load game config, ...)
+         */
+        GameController.menu(theScene, gameField, root, gc, primaryStage);
         /*
         | Game loop
          */
