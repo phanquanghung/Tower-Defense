@@ -7,6 +7,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -29,28 +30,7 @@ public class Main extends Application {
         /*
         | Menu game (play (then choice level), credit or tutorial, choice level, load map, load game config, ...)
          */
-
-        /*
-        |=======================================|
-        |   1. Player controller's input        |
-        |=======================================|
-
-        /*
-        |=======================================|
-        |   2. Render Everything                |
-        |=======================================|
-
-        /*
-        |=======================================|
-        |   3. Update world                     |
-        |=======================================|
-
-        /*
-        |=======================================|
-        |   4. Update Physics                   |
-        |=======================================|
-         */
-
+        GameController.menu(theScene, gameField, root, gc, primaryStage);
         /*
         | Game loop
          */
@@ -58,20 +38,7 @@ public class Main extends Application {
 //        System.out.println("new Enemy");
 //        enemy.setDirection(Enemy.Direction.UP);
 //        GameField.getEnemies().add(enemy);
-        AnimationTimer timer = new AnimationTimer() {
-            long time = System.nanoTime();
-            @Override
-            public void handle(long now) {
-                GameController.mouseClicked(theScene, gameField, root, gc);
-                gameField.update(now - time);
-                gameField.draw(gc, gameField);
 
-                gameField.gameOver(primaryStage);
-                //if(player don't play more, click exit button to exit the game) GameStage.closeWindow(primaryStage);
-            }
-        };
-        timer.start();
-        primaryStage.show();
     }
 
     public static void main (String[] args){

@@ -46,5 +46,27 @@ public class MachineGunTower extends Tower {
 //            System.out.println("Distance = " + enemy.evaluateDistance(this) + " Added!");
 //            shoot(enemy);
 //        }
+        for (Enemy enemy : GameField.getEnemies()){
+            if (enemy.evaluateDistance(this) < getRange() && !(enemyQueue.contains(enemy))){
+                addToQueue(enemy);
+            }
+        }
+
+        Enemy enemy = getShootingEnemy();
+        if (shootingEnemy == null) {
+            if (!enemyQueue.isEmpty()) {
+                enemy = enemyQueue.poll();
+                if (enemy != null && enemy.evaluateDistance(this) < getRange()) {
+                    setShootingEnemy(enemy);
+                } else {
+                    setShootingEnemy(null);
+                }
+            }
+        } else if (shootingEnemy.evaluateDistance(this) > getRange() || (shootingEnemy.getHealth()<0)) {
+            setShootingEnemy(null);
+        } else {
+            //System.out.println("Distance = " + enemy.evaluateDistance(this) + " Added!");
+            shoot(enemy);
+        }
     }
 }

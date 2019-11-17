@@ -13,9 +13,13 @@ import Entity.Moveable.Enemy.*;
 import Graphic.ImageSheet;
 import Graphic.Render;
 import Graphic.TileMap;
+import javafx.scene.Group;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -145,8 +149,8 @@ public class GameField {
     private long tickLastSpawn;
 
     public void update(long time) {
-        System.out.println("****************Player Money = " + gameStage.getPlayerFinance());
-        System.out.println("Player Heart = " + gameStage.getPlayerHP());
+//        System.out.println("****************Player Money = " + gameStage.getPlayerFinance());
+//        System.out.println("Player Heart = " + gameStage.getPlayerHP());
         if ((time - tickLastSpawn >= 10E8)) {
             Enemy enemy = new SmallerEnemy();
             enemy.setDirection(Enemy.Direction.UP); //default
