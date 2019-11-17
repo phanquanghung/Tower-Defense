@@ -27,28 +27,9 @@ public class Main extends Application {
         root.getChildren().addAll(canvas);
 
         /*
-        | Menu game (play (then choice level), credit or tutorial, choice level, load map, load game config, ...)
+        | Menu game + Game loop
          */
         GameController.menu(theScene, gameField, root, gc, primaryStage);
-        /*
-        | Game loop
-         */
-//        Enemy enemy = new NormalEnemy();
-//        System.out.println("new Enemy");
-//        enemy.setDirection(Enemy.Direction.UP);
-//        GameField.getEnemies().add(enemy);
-        AnimationTimer timer = new AnimationTimer() {
-            long time = System.nanoTime();
-            @Override
-            public void handle(long now) {
-                GameController.mouseClicked(theScene, gameField, root, gc);
-                gameField.update(now - time);
-                gameField.draw(gc, gameField);
-                gameField.gameOver(primaryStage);
-            }
-        };
-        timer.start();
-        primaryStage.show();
     }
 
     public static void main (String[] args){
