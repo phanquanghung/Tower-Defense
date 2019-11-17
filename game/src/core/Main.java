@@ -16,7 +16,6 @@ public class Main extends Application {
         //load game information (load in a Object name gameField)
         GameField gameField = new GameField();
 
-
         //Create new Window
         Render renderGame = new Render();
         Group root = new Group();
@@ -25,31 +24,6 @@ public class Main extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         Render.generateWindow(primaryStage, root, theScene);
         root.getChildren().addAll(canvas);
-
-        /*
-        | Menu game (play (then choice level), credit or tutorial, choice level, load map, load game config, ...)
-         */
-
-        /*
-        |=======================================|
-        |   1. Player controller's input        |
-        |=======================================|
-
-        /*
-        |=======================================|
-        |   2. Render Everything                |
-        |=======================================|
-
-        /*
-        |=======================================|
-        |   3. Update world                     |
-        |=======================================|
-
-        /*
-        |=======================================|
-        |   4. Update Physics                   |
-        |=======================================|
-         */
 
         /*
         | Game loop
@@ -65,9 +39,7 @@ public class Main extends Application {
                 GameController.mouseClicked(theScene, gameField, root, gc);
                 gameField.update(now - time);
                 gameField.draw(gc, gameField);
-
                 gameField.gameOver(primaryStage);
-                //if(player don't play more, click exit button to exit the game) GameStage.closeWindow(primaryStage);
             }
         };
         timer.start();

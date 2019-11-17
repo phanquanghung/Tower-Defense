@@ -8,7 +8,7 @@ package core;
 
 import Entity.Immoveable.Road;
 import Entity.Immoveable.Tower;
-import Entity.Moveable.Bullet;
+import Entity.Moveable.Bullet.Bullet;
 import Entity.Moveable.Enemy.*;
 import Graphic.ImageSheet;
 import Graphic.Render;
@@ -116,6 +116,7 @@ public class GameField {
         road.printMapData();
         rockTree.printMapData();
         spawn.printMapData();
+        tower.printMapData();
 
         //load tiled sheet
         imageSheet.loadImageViewSheet("Graphic/towerDefense_tilesheet.png");
@@ -148,7 +149,7 @@ public class GameField {
         System.out.println("****************Player Money = " + gameStage.getPlayerFinance());
         System.out.println("Player Heart = " + gameStage.getPlayerHP());
         if ((time - tickLastSpawn >= 10E8)) {
-            Enemy enemy = new SmallerEnemy();
+            Enemy enemy = new NormalEnemy();
             enemy.setDirection(Enemy.Direction.UP); //default
 //            System.out.println("NEW ENEMY");
             tickLastSpawn = time;
@@ -191,6 +192,13 @@ public class GameField {
          */
         for (Enemy enemy : enemies) {
             enemy.draw(gc);
+        }
+
+        /*
+         * Draw Enemy's HP_BAR
+         */
+        for (Enemy enemy:enemies){
+            enemy.drawHPBar(gc);
         }
 
         /*

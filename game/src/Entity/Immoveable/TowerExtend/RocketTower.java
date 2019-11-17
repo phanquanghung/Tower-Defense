@@ -2,18 +2,19 @@ package Entity.Immoveable.TowerExtend;
 
 import Entity.Immoveable.Tower;
 import Entity.Moveable.Bullet.Bullet;
-import Entity.Moveable.Bullet.NormalBullet;
+import Entity.Moveable.Bullet.RocketBullet;
 import Entity.Moveable.Enemy.Enemy;
 import core.Config;
 import core.GameField;
 import core.GameStage;
 
-public class NormalTower extends Tower {
+public class RocketTower extends Tower {
 
-    public NormalTower() {
-        super(Config.NORMAL_TOWER_SPEED, Config.NORMAL_TOWER_RANGE, Config.NORMAL_BULLET_STRENGTH);
-        setImg(GameField.getImageSheet().imageSheet.get(10*23 + 19), GameField.getImageSheet().imageSheet.get(7*23 + 19));
-        setCost(Config.NORMAL_TOWER_COST);
+    public RocketTower() {
+        super(Config.ROCKET_TOWER_SPEED, Config.ROCKET_TOWER_RANGE, Config.ROCKET_BULLET_STRENGTH);
+        //TODO: find the imageSheet index for machine gun
+        setImg(GameField.getImageSheet().imageSheet.get(8*23 + 20), GameField.getImageSheet().imageSheet.get(7*23 + 20));
+        setCost(Config.ROCKET_TOWER_COST);
         GameStage.buyTower((int)getCost());
     }
 
@@ -24,7 +25,7 @@ public class NormalTower extends Tower {
         if (tickDown-- > 0) return;
         if (shootingEnemy != null) {
             tickDown = (int) getSpeed();
-            Bullet bullet = new NormalBullet(getPosX(),getPosY(),0,0);
+            Bullet bullet = new RocketBullet(getPosX(),getPosY(),0,0);
             bullet.setEnemy(enemy);
             GameField.addBullet(bullet);
         }

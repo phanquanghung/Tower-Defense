@@ -308,7 +308,7 @@ public abstract class Enemy extends AbstractEntity {
 
     public void doAttack(double damage) {
         //enemy harm the defender
-        setHealth((long)(getHealth() - damage));
+        setHealth((long)(getHealth() - (damage - getArmor())));
     }
 
     public void destroy(Enemy enemy) {
@@ -319,7 +319,6 @@ public abstract class Enemy extends AbstractEntity {
     @Override
     public void draw(GraphicsContext gc) {
         super.draw(gc);
-        drawHPBar(gc);
         rotateEnemy(gc, getImg(), getPosX(), getPosY());
         gc.drawImage(getImg(), getPosX(), getPosY());
         gc.restore();
