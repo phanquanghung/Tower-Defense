@@ -92,6 +92,7 @@ public class GameController {
                     if (GameStage.hasEnoughMoney((int)Config.NORMAL_TOWER_COST)){
                         if (gameField.getSpawn().getTileMap(ver, hor) == 16) {
                             towerMenu(root, gameField.getImageSheet(), gameField.getSpawn(), ver, hor, gameField.getTower(), gameField, finalTowerSelected);
+                            towerToggle.selectToggle(null);
                         }
                     }
                     else {System.out.println("DON'T HAVE ENOUGH MONEY DUDE!!");}
