@@ -21,7 +21,7 @@ public final class Config {
     public static final int TILE_VERTICAL = 64;
 
     //size of the screen
-    public static final int SCREEN_WIDTH = MAP_WIDTH*TILE_VERTICAL;
+    public static final int SCREEN_WIDTH = MAP_WIDTH*TILE_VERTICAL + 242;
 
     public static final int SCREEN_HEIGHT = MAP_HEIGHT*TILE_HORIZONTAL;
 
@@ -35,14 +35,17 @@ public final class Config {
     public static final int GAME_START_MONEY = 100;
 
     //region Bullet
-    public static final long NORMAL_BULLET_STRENGTH = 10;
+    public static final long NORMAL_BULLET_STRENGTH = 20;
     public static final double NORMAL_BULLET_SPEED = 12;
 
-    public static final long MACHINE_GUN_BULLET_STRENGTH = 5;
+    public static final long MACHINE_GUN_BULLET_STRENGTH = 8;
     public static final double MACHINE_GUN_BULLET_SPEED = 12;
 
     public static final long ROCKET_BULLET_STRENGTH = 30;
     public static final double ROCKET_BULLET_SPEED = 5;
+
+    public static final long SNIPER_BULLET_STRENGTH = 75;
+    public static final double SNIPER_BULLET_SPEED = 5;
     //endregion
 
     //region Tower
@@ -59,6 +62,10 @@ public final class Config {
     public static final long ROCKET_MAGAZINE = 2;
     public static final long ROCKET_TOWER_COST = 5;
     public static final double ROCKET_TOWER_RANGE = 256;
+
+    public static final long SNIPER_TOWER_SPEED = 150;
+    public static final long SNIPER_TOWER_COST = 5;
+    public static final double SNIPER_TOWER_RANGE = 300;
     //endregion
 
     //region Enemy

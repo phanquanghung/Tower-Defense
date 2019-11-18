@@ -2,6 +2,8 @@ package core;
 import Entity.Immoveable.Tower;
 import Entity.Immoveable.TowerExtend.MachineGunTower;
 import Entity.Immoveable.TowerExtend.NormalTower;
+import Entity.Immoveable.TowerExtend.RocketTower;
+import Entity.Immoveable.TowerExtend.SniperTower;
 import Graphic.ImageSheet;
 import Graphic.TileMap;
 import javafx.event.ActionEvent;
@@ -65,13 +67,19 @@ public class GameController {
 
     }
 
-    static void mouseClicked (Scene theScene, GameField gameField, Group root, GraphicsContext gc, ToggleGroup towerToggle, ToggleButton normalTowerButton, ToggleButton machineGunTowerButton){
+    static void mouseClicked (Scene theScene, GameField gameField, Group root, GraphicsContext gc, ToggleGroup towerToggle, ToggleButton normalTowerButton, ToggleButton machineGunTowerButton, ToggleButton rocketTowerButton, ToggleButton sniperTowerButton){
         String towerSelected = new String();
         if (towerToggle.getSelectedToggle() == normalTowerButton) {
             towerSelected = "Normal Tower";
         }
         else if (towerToggle.getSelectedToggle() == machineGunTowerButton) {
             towerSelected = "Machine Gun Tower";
+        }
+        else if (towerToggle.getSelectedToggle() == rocketTowerButton) {
+            towerSelected = "Rocket Tower";
+        }
+        else if (towerToggle.getSelectedToggle() == sniperTowerButton) {
+            towerSelected = "Sniper Tower";
         }
         String finalTowerSelected = towerSelected;
         theScene.setOnMouseClicked(new EventHandler<MouseEvent>()
@@ -101,6 +109,14 @@ public class GameController {
             towerTM.setTileMap(ver,hor,3);
             //towerTM.printMapData();
             newTower = new MachineGunTower();
+        } else if (towerSelected == "Rocket Tower") {
+            towerTM.setTileMap(ver,hor,4);
+            //towerTM.printMapData();
+            newTower = new RocketTower();
+        } else if (towerSelected == "Sniper Tower") {
+            towerTM.setTileMap(ver,hor,5);
+            //towerTM.printMapData();
+            newTower = new SniperTower();
         } else return;
         newTower.setPosXY((hor)*Config.TILE_HORIZONTAL,(ver)*Config.TILE_VERTICAL);
         gameField.addTower(newTower);

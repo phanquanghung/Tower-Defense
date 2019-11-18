@@ -14,6 +14,7 @@ import Graphic.ImageSheet;
 import Graphic.Render;
 import Graphic.TileMap;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
@@ -143,8 +144,12 @@ public class GameField {
         tower.printMapData();
     }
 
-    public void gameOver(Stage stage) {
-        if (gameStage.gameOver()) Render.closeWindow(stage);
+    public void gameOver(Scene theScene, GameField gameField, Group root, GraphicsContext gc, Stage stage) {
+        //TODO: return to menu
+        if (gameStage.gameOver()) {
+            //GameController.menu(theScene, gameField, root, gc, stage);
+            Render.closeWindow(stage);
+        }
     }
 
     private long tickLastSpawn;
