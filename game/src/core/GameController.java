@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
@@ -48,7 +49,7 @@ public class GameController {
 //		drawer.screenToFieldPosY(mouseEvent.getY());
     }
 
-    static void menu (Scene theScene, GameField gameField, Group root, GraphicsContext gc, Stage primaryStage){
+    static void menu (Canvas canvas, Scene theScene, GameField gameField, Group root, GraphicsContext gc, Stage primaryStage){
         Image title = new Image("Graphic/title.png");
         gc.drawImage(title,0,0);
         Button play = new Button("PLAY");
@@ -59,7 +60,7 @@ public class GameController {
         play.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                GameStage.playGame(primaryStage, theScene, gameField, root, gc);
+                GameStage.playGame(canvas, primaryStage, theScene, gameField, root, gc);
                 play.setVisible(false);
                 play.setDisable(true);
             }
@@ -67,7 +68,7 @@ public class GameController {
 
     }
 
-    static void mouseClicked (Scene theScene, GameField gameField, Group root, GraphicsContext gc, ToggleGroup towerToggle, ToggleButton normalTowerButton, ToggleButton machineGunTowerButton, ToggleButton rocketTowerButton, ToggleButton sniperTowerButton){
+    static void mouseClicked (Canvas canvas, Scene theScene, GameField gameField, Group root, GraphicsContext gc, ToggleGroup towerToggle, ToggleButton normalTowerButton, ToggleButton machineGunTowerButton, ToggleButton rocketTowerButton, ToggleButton sniperTowerButton){
         String towerSelected = new String();
         if (towerToggle.getSelectedToggle() == normalTowerButton) {
             towerSelected = "Normal Tower";
@@ -82,7 +83,7 @@ public class GameController {
             towerSelected = "Sniper Tower";
         }
         String finalTowerSelected = towerSelected;
-        theScene.setOnMouseClicked(new EventHandler<MouseEvent>()
+        canvas.setOnMouseClicked(new EventHandler<MouseEvent>()
         {
             public void handle(MouseEvent e)
             {

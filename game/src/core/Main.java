@@ -1,13 +1,11 @@
 package core;
 
 import Graphic.Render;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -20,8 +18,8 @@ public class Main extends Application {
         //Create new Window
         Render renderGame = new Render();
         Group root = new Group();
-        Scene theScene = new Scene(root);
-        Canvas canvas = new Canvas(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT);
+        Scene theScene = new Scene(root, Config.CANVAS_WIDTH, Config.CANVAS_HEIGHT + 120);
+        Canvas canvas = new Canvas(Config.CANVAS_WIDTH, Config.CANVAS_HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         Render.generateWindow(primaryStage, root, theScene);
         root.getChildren().addAll(canvas);
@@ -29,7 +27,7 @@ public class Main extends Application {
         /*
         | Menu game + Game loop
          */
-        GameController.menu(theScene, gameField, root, gc, primaryStage);
+        GameController.menu(canvas, theScene, gameField, root, gc, primaryStage);
     }
 
     public static void main (String[] args){

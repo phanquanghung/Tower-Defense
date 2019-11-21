@@ -255,8 +255,8 @@ public abstract class Enemy extends AbstractEntity {
         double x = getPosX();
         double y = getPosY();
 //        System.out.println("x = " + x + " y = " + y);
-        if (x < - getSpeed()*100 || x > Config.SCREEN_WIDTH + getSpeed()) return true;
-        else if (y < - getSpeed()*100 || y > Config.SCREEN_HEIGHT + getSpeed()) return true;
+        if (x < - getSpeed()*100 || x > Config.CANVAS_WIDTH + getSpeed()) return true;
+        else if (y < - getSpeed()*100 || y > Config.CANVAS_HEIGHT + getSpeed()) return true;
         return false;
     }
     public void update(GameStage gameStage) {
