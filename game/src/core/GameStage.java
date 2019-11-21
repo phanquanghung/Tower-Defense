@@ -14,6 +14,10 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
+import sun.plugin2.gluegen.runtime.CPU;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -110,7 +114,7 @@ public class GameStage {
 
             @Override
             public void handle(long now) {
-                GameController.mouseClicked(theScene, gameField, root, gc, towerToggle, normalTowerButton, machineGunTowerButton, rocketTowerButton, sniperTowerButton);
+                GameController.mouseClicked(canvas, theScene, gameField, root, gc, towerToggle, normalTowerButton, machineGunTowerButton, rocketTowerButton, sniperTowerButton);
                 gameField.update(now - time);
                 gameField.draw(gc, gameField);
                 gameField.gameOver(theScene, gameField, root, gc, primaryStage);
