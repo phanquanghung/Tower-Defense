@@ -21,9 +21,9 @@ public final class Config {
     public static final int TILE_VERTICAL = 64;
 
     //size of the screen
-    public static final int SCREEN_WIDTH = MAP_WIDTH*TILE_VERTICAL + 242;
+    public static final int CANVAS_WIDTH = MAP_WIDTH*TILE_VERTICAL;
 
-    public static final int SCREEN_HEIGHT = MAP_HEIGHT*TILE_HORIZONTAL;
+    public static final int CANVAS_HEIGHT = MAP_HEIGHT*TILE_HORIZONTAL;
 
     //enemy's HP bar
     public static final double HP_BAR_WIDTH = 64;
