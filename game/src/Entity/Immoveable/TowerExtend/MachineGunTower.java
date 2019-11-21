@@ -23,7 +23,7 @@ public class MachineGunTower extends Tower {
     @Override
     public void shoot(Enemy enemy) {
         if (tickDown-- > 0) return;
-        System.out.println("SHOOT!");
+        //System.out.println("SHOOT!");
         if (shootingEnemy != null) {
             tickDown = (int) getSpeed();
             //2 bullet

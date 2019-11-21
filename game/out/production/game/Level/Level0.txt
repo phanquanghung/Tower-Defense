@@ -1,0 +1,3 @@
+Map/background3.txt Map/road3.txt Map/rockTree3.txt Map/spawn3.txt
+spawn 6 1
+target 0 11

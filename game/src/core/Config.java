@@ -36,25 +36,25 @@ public final class Config {
 
     //region Bullet
     public static final long NORMAL_BULLET_STRENGTH = 20;
-    public static final double NORMAL_BULLET_SPEED = 12;
+    public static final double NORMAL_BULLET_SPEED = 15;
 
-    public static final long MACHINE_GUN_BULLET_STRENGTH = 8;
-    public static final double MACHINE_GUN_BULLET_SPEED = 12;
+    public static final long MACHINE_GUN_BULLET_STRENGTH = 5;
+    public static final double MACHINE_GUN_BULLET_SPEED = 15;
 
     public static final long ROCKET_BULLET_STRENGTH = 30;
-    public static final double ROCKET_BULLET_SPEED = 5;
+    public static final double ROCKET_BULLET_SPEED = 12;
 
     public static final long SNIPER_BULLET_STRENGTH = 75;
-    public static final double SNIPER_BULLET_SPEED = 5;
+    public static final double SNIPER_BULLET_SPEED = 12;
     //endregion
 
     //region Tower
     //TODO: change the cost
-    public static final long NORMAL_TOWER_SPEED = 60;
+    public static final long NORMAL_TOWER_SPEED = 35;
     public static final long NORMAL_TOWER_COST = 5;
     public static final double NORMAL_TOWER_RANGE = 127;
 
-    public static final long MACHINE_GUN_TOWER_SPEED = 25;
+    public static final long MACHINE_GUN_TOWER_SPEED = 10;
     public static final long MACHINE_GUN_TOWER_COST = 5;
     public static final double MACHINE_GUN_TOWER_RANGE = 127;
 

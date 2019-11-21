@@ -19,6 +19,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -36,16 +37,23 @@ public class GameField {
 
     private static ArrayList<Tower> towers = new ArrayList<>(); //Tower array
     private static ArrayList<Bullet> bullets = new ArrayList<>(); //Bullet array
+    private ArrayList<Queue<Pair<Enemy, Integer>>> enemyWaiting = new ArrayList<>(); //Enemies that are waiting to be spawned
+
     private static Queue<Bullet> removingBullet = new LinkedList<>(); //Bullet has been shoot and hit the target
     private static ArrayList<Enemy> enemies = new ArrayList<>(); //Enemies array
     private static Queue<Enemy> deathEnemy = new LinkedList<>(); //Enemies has been killed or go through the map
 
+    private static int wave = 0; //wave order
     private static Road roadInfo = new Road();
     private static GameStage gameStage = new GameStage();
 
     public GameField() {
-        loadMap();
+//        loadMap();
         loadGameplay();
+    }
+
+    public ArrayList<Queue<Pair<Enemy, Integer>>> getEnemyWaiting() {
+        return enemyWaiting;
     }
 
     public static Queue<Enemy> getDeathEnemy() {
@@ -88,10 +96,6 @@ public class GameField {
         return bullets;
     }
 
-    public void addEnemy(Enemy enemy) {
-        GameField.enemies.add(enemy);
-    }
-
     public ArrayList<Tower> getTowers() {
         return towers;
     }
@@ -104,17 +108,25 @@ public class GameField {
         GameField.towers.add(tower);
     }
 
+    public void addEnemy(Enemy enemy) {
+        GameField.enemies.add(enemy);
+    }
+
     public static void addBullet(Bullet bullet) {
         GameField.bullets.add(bullet);
     }
 
-    public static void loadMap() {
+    public void setEnemyWaiting(ArrayList<Queue<Pair<Enemy, Integer>>> enemyWaiting) {
+        this.enemyWaiting = enemyWaiting;
+    }
+
+    public void loadMap(String backgroundData, String roadData, String rockTreeData, String spawnData) {
         //input layer data
-        background.readFile("Map/background3.txt");
-        road.readFile("Map/road3.txt");
-        rockTree.readFile("Map/rockTree3.txt");
-        spawn.readFile("Map/spawn3.txt");
-        tower.readFile("Map/spawn3.txt");
+        background.readFile(backgroundData);
+        road.readFile(roadData);
+        rockTree.readFile(rockTreeData);
+        spawn.readFile(spawnData);
+        tower.readFile(spawnData);
 
         //print to check
         background.printMapData();
@@ -128,6 +140,12 @@ public class GameField {
         // render to check
         // Render.renderMap(background.getTileMap(), imageSheet);
 
+        //load road information
+        //roadInfo.setRoadInfo(road.getTileMap());
+        //roadInfo.printTestRoadInfo();
+    }
+
+    public void setRoadInfo (){
         //load road information
         roadInfo.setRoadInfo(road.getTileMap());
         roadInfo.printTestRoadInfo();
@@ -178,11 +196,7 @@ public class GameField {
         }
 
         while (!deathEnemy.isEmpty()) enemies.remove(deathEnemy.poll());
-        while (!removingBullet.isEmpty()) {
-            bullets.remove(removingBullet.poll());
-            System.out.println("Delete");
-            System.out.println(bullets.size());
-        }
+        while (!removingBullet.isEmpty()) bullets.remove(removingBullet.poll());
     }
 
     public void draw(GraphicsContext gc, GameField gameField) {

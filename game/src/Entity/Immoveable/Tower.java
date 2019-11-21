@@ -18,6 +18,7 @@ public abstract class Tower implements TowerInterface{
     private Image image, stand;
     private double posX;
     private double posY;
+    private double curAngle = 0;
     protected Enemy shootingEnemy = null;
     protected Queue<Enemy> enemyQueue;
 
@@ -26,6 +27,14 @@ public abstract class Tower implements TowerInterface{
         setSpeed(speed);
         setStrength(strength);
         enemyQueue = new LinkedList<>();
+    }
+
+    public void setCurAngle(double curAngle) {
+        this.curAngle = curAngle;
+    }
+
+    public double getCurAngle() {
+        return curAngle;
     }
 
     public void setCost(long cost) {
@@ -142,10 +151,11 @@ public abstract class Tower implements TowerInterface{
             double x = getShootingEnemy().getPosX() - getPosX();
             double y = getShootingEnemy().getPosY() - getPosY();
             double angle = Math.atan2(x, y);
-            if (angle < 0) return Math.abs(angle);
-            else return 2*Math.PI - angle;
+
+            if (angle < 0) setCurAngle(Math.abs(angle));
+            else setCurAngle(2*Math.PI - angle);
         }
-        return 0;
+        return getCurAngle();
     }
 
     @Override

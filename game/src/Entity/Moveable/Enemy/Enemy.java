@@ -36,16 +36,8 @@ public abstract class Enemy extends AbstractEntity {
     public Enemy (){}
 
     public void setFirstPos() {
-        double[][] arr = GameField.getRoadInfo().getRoadInfo();
-        for (int i = 0; i < Config.MAP_HEIGHT; i++) {
-            for (int j = 0; j < Config.MAP_WIDTH; j++) {
-                if (arr[i][j] == 2) {
-                    setPosX(j * Config.TILE_VERTICAL + 31);
-                    setPosY(i * Config.TILE_HORIZONTAL + 31);
-                    break;
-                }
-            }
-        }
+        setPosX(GameField.getRoadInfo().getSpawn().getPosX()*Config.TILE_HORIZONTAL + 31);
+        setPosY(GameField.getRoadInfo().getSpawn().getPosY()*Config.TILE_VERTICAL);
     }
 
     public abstract double getMaxHealth ();
@@ -154,10 +146,10 @@ public abstract class Enemy extends AbstractEntity {
                 double x2U = GameField.getRoadInfo().getRoadInfo(index, jndex - 1); // left
                 //System.out.println("Left is: " + x2U + " Right is: " + x1U);
                 if (x1U > x2U) {
-                    System.out.println("RIGHT");
+                    //System.out.println("RIGHT");
                     return Direction.RIGHT;
                 } else {
-                    System.out.println("LEFT");
+                    //System.out.println("LEFT");
                     return Direction.LEFT;
                 }
             case DOWN:

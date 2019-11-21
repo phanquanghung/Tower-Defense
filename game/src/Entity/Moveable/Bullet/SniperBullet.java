@@ -8,6 +8,6 @@ public class SniperBullet extends Bullet {
     public SniperBullet(double posX, double posY, double width, double height) {
         super(posX, posY, width, height);
         setImg(GameField.getImageSheet().imageSheet.get(11*23 + 19));
-        setInfo(Config.SNIPER_TOWER_SPEED, Config.SNIPER_BULLET_STRENGTH);
+        setInfo(Config.SNIPER_BULLET_SPEED, Config.SNIPER_BULLET_STRENGTH);
     }
 }

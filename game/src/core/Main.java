@@ -1,13 +1,11 @@
 package core;
 
 import Graphic.Render;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -15,7 +13,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         //load game information (load in a Object name gameField)
-        GameField gameField = new GameField();
+        GameField gameField = GameStage.loadGameField("src/Level/Level0.txt");
 
         //Create new Window
         Render renderGame = new Render();
