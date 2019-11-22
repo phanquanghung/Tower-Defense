@@ -215,8 +215,8 @@ public class GameField {
 //        System.out.println("*****Wave: " + getWave());
         if(gameStage.getStatus() != GameStage.Status.RUNNING) return;
         if ((time - tickLastSpawn >= 10E8)) {
-            tickLastSpawn = time;
             spawnEnemy(time);
+            tickLastSpawn = time;
         }
 
         for (int i = 0; i < enemies.size(); i++) {
@@ -233,7 +233,6 @@ public class GameField {
 
         while (!deathEnemy.isEmpty()) enemies.remove(deathEnemy.poll());
         while (!removingBullet.isEmpty()) bullets.remove(removingBullet.poll());
-
 
     }
 
