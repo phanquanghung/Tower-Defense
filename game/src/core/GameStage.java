@@ -2,7 +2,7 @@ package core;
 
 import Entity.Immoveable.RoadExtend.Spawn;
 import Entity.Immoveable.RoadExtend.Target;
-import Entity.Moveable.Enemy.Enemy;
+import Entity.Moveable.Enemy.*;
 import core.Config;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
@@ -20,10 +20,7 @@ import javafx.scene.text.Font;
 import sun.plugin2.gluegen.runtime.CPU;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 /*
 |=======================================================================|
 |   This class start a game field (game field's status, config, ...)    |
@@ -34,8 +31,21 @@ import java.util.Scanner;
 public class GameStage {
     private static int playerHP = Config.GAME_HEART;
     private static int playerFinance = Config.GAME_START_MONEY;
+    protected Status status = Status.RUNNING;
+
+    enum Status {
+        PAUSE, WIN, LOSS, RUNNING;
+    }
 
     public GameStage() {
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 
     public int getPlayerHP() {
@@ -117,7 +127,7 @@ public class GameStage {
                 GameController.mouseClicked(canvas, theScene, gameField, root, gc, towerToggle, normalTowerButton, machineGunTowerButton, rocketTowerButton, sniperTowerButton);
                 gameField.update(now - time);
                 gameField.draw(gc, gameField);
-                gameField.gameOver(theScene, gameField, root, gc, primaryStage);
+                gameField.gameOver();
                 //if(player don't play more, click exit button to exit the game) GameStage.closeWindow(primaryStage);
             }
         };
@@ -130,9 +140,10 @@ public class GameStage {
         return false;
     }
 
-    public boolean gameOver() {
-        if (getPlayerHP() <= 0) return true;
-        return false;
+    public void gameOver() {
+        if (getPlayerHP() <= 0) status = Status.LOSS;
+        else if(GameField.getEnemies().isEmpty() && GameField.getEnemyWaiting().get(GameField.getEnemyWaiting().size()-1).isEmpty()) status = Status.WIN;
+        return;
     }
 
     public static GameField loadGameField(String fileName) {
@@ -154,7 +165,7 @@ public class GameStage {
          */
         gameField.loadMap(mapData[0], mapData[1], mapData[2], mapData[3]);
 
-        ArrayList<Queue<Pair<Enemy, Integer>>> waitingEnemy = new ArrayList<>();
+        ArrayList<Queue<Enemy>> waitingEnemy = new ArrayList<>();
         int wave = 0;
         while (sc.hasNext()){
             switch (sc.next()){
@@ -162,6 +173,42 @@ public class GameStage {
                     wave = sc.nextInt();
                     while (wave > waitingEnemy.size() - 1) waitingEnemy.add(new LinkedList<>());
                     break;
+                case "NormalEnemy": {
+                    int number = sc.nextInt();
+                    while (number-->0){
+                        Enemy enemy = new NormalEnemy();
+                        enemy.setDirection(Enemy.Direction.UP);
+                        waitingEnemy.get(wave).add(enemy);
+                    }
+                    break;
+                }
+                case "SmallerEnemy":{
+                    int number = sc.nextInt();
+                    while (number-->0){
+                        Enemy enemy = new SmallerEnemy();
+                        enemy.setDirection(Enemy.Direction.UP);
+                        waitingEnemy.get(wave).add(enemy);
+                    }
+                    break;
+                }
+                case "TankerEnemy":{
+                    int number = sc.nextInt();
+                    while (number-->0){
+                        Enemy enemy = new TankerEnemy();
+                        enemy.setDirection(Enemy.Direction.UP);
+                        waitingEnemy.get(wave).add(enemy);
+                    }
+                    break;
+                }
+                case "BossEnemy":{
+                    int number = sc.nextInt();
+                    while (number-->0){
+                        Enemy enemy = new BossEnemy();
+                        enemy.setDirection(Enemy.Direction.UP);
+                        waitingEnemy.get(wave).add(enemy);
+                    }
+                    break;
+                }
                 case "spawn":
                     int [] dataS = new int [2];
                     dataS[0] = sc.nextInt();
@@ -184,6 +231,7 @@ public class GameStage {
         }
         sc.close();
         gameField.setRoadInfo();
+        gameField.setEnemyWaiting(waitingEnemy);
         return gameField;
     }
 }
