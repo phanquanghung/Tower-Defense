@@ -37,13 +37,13 @@ public class GameField {
 
     private static ArrayList<Tower> towers = new ArrayList<>(); //Tower array
     private static ArrayList<Bullet> bullets = new ArrayList<>(); //Bullet array
-    private ArrayList<Queue<Pair<Enemy, Integer>>> enemyWaiting = new ArrayList<>(); //Enemies that are waiting to be spawned
+    private static ArrayList<Queue<Enemy>> enemyWaiting = new ArrayList<>(); //Enemies that are waiting to be spawned
 
     private static Queue<Bullet> removingBullet = new LinkedList<>(); //Bullet has been shoot and hit the target
     private static ArrayList<Enemy> enemies = new ArrayList<>(); //Enemies array
     private static Queue<Enemy> deathEnemy = new LinkedList<>(); //Enemies has been killed or go through the map
 
-    private static int wave = 0; //wave order
+    private static int wave = 1; //wave order
     private static Road roadInfo = new Road();
     private static GameStage gameStage = new GameStage();
 
@@ -52,7 +52,7 @@ public class GameField {
         loadGameplay();
     }
 
-    public ArrayList<Queue<Pair<Enemy, Integer>>> getEnemyWaiting() {
+    public static ArrayList<Queue<Enemy>> getEnemyWaiting() {
         return enemyWaiting;
     }
 
@@ -104,6 +104,10 @@ public class GameField {
         return tower;
     }
 
+    public static int getWave() {
+        return wave;
+    }
+
     public void addTower(Tower tower) {
         GameField.towers.add(tower);
     }
@@ -116,7 +120,11 @@ public class GameField {
         GameField.bullets.add(bullet);
     }
 
-    public void setEnemyWaiting(ArrayList<Queue<Pair<Enemy, Integer>>> enemyWaiting) {
+    public static void setRoadInfo(Road roadInfo) {
+        GameField.roadInfo = roadInfo;
+    }
+
+    public void setEnemyWaiting(ArrayList<Queue<Enemy>> enemyWaiting) {
         this.enemyWaiting = enemyWaiting;
     }
 
@@ -162,11 +170,40 @@ public class GameField {
         tower.printMapData();
     }
 
-    public void gameOver(Scene theScene, GameField gameField, Group root, GraphicsContext gc, Stage stage) {
+    public void gameOver() {
         //TODO: return to menu
-        if (gameStage.gameOver()) {
+        gameStage.gameOver();
+        if (gameStage.getStatus() == GameStage.Status.WIN) {
             //GameController.menu(theScene, gameField, root, gc, stage);
-            Render.closeWindow(stage);
+            System.out.println("YOU WIN! BRO!!!");
+        }
+        else if (gameStage.getStatus() == GameStage.Status.LOSS){
+            System.out.println("YOU LOSS! BRO!!!");
+        }
+    }
+
+    public void pauseGame(){
+        gameStage.setStatus(GameStage.Status.PAUSE);
+    }
+
+    public void unpauseGame(){
+        gameStage.setStatus(GameStage.Status.RUNNING);
+    }
+
+    public void spawnEnemy(long time) {
+        if (!enemyWaiting.get(wave).isEmpty()) {
+            Enemy enemy = enemyWaiting.get(wave).peek();
+            if (enemy == null) {
+                enemyWaiting.get(wave).poll();
+                return;
+            }
+            else {
+                enemies.add(enemy);
+                enemyWaiting.get(wave).poll();
+            }
+        }
+        else if (enemyWaiting.get(wave).isEmpty() && enemies.size()-1 <0){
+            wave++;
         }
     }
 
@@ -175,12 +212,11 @@ public class GameField {
     public void update(long time) {
 //        System.out.println("****************Player Money = " + gameStage.getPlayerFinance());
 //        System.out.println("Player Heart = " + gameStage.getPlayerHP());
+//        System.out.println("*****Wave: " + getWave());
+        if(gameStage.getStatus() != GameStage.Status.RUNNING) return;
         if ((time - tickLastSpawn >= 10E8)) {
-            Enemy enemy = new NormalEnemy();
-            enemy.setDirection(Enemy.Direction.UP); //default
-//            System.out.println("NEW ENEMY");
             tickLastSpawn = time;
-            enemies.add(enemy);
+            spawnEnemy(time);
         }
 
         for (int i = 0; i < enemies.size(); i++) {
@@ -197,18 +233,13 @@ public class GameField {
 
         while (!deathEnemy.isEmpty()) enemies.remove(deathEnemy.poll());
         while (!removingBullet.isEmpty()) bullets.remove(removingBullet.poll());
+
+
     }
 
     public void draw(GraphicsContext gc, GameField gameField) {
         //render 4 layers: background -> road -> treeRock -> spawn
         Render.renderMap(gc, gameField);
-
-        /*
-         * Draw Tower
-         */
-        for (Tower tower : towers) {
-            tower.draw(gc, gameField);
-        }
 
         /*
          * Draw Enemy
@@ -229,6 +260,13 @@ public class GameField {
          */
         for (Bullet bullet : bullets) {
             bullet.draw(gc);
+        }
+
+        /*
+         * Draw Tower
+         */
+        for (Tower tower : towers) {
+            tower.draw(gc, gameField);
         }
 
     }

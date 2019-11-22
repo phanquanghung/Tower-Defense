@@ -36,8 +36,8 @@ public abstract class Enemy extends AbstractEntity {
     public Enemy (){}
 
     public void setFirstPos() {
-        setPosX(GameField.getRoadInfo().getSpawn().getPosX()*Config.TILE_HORIZONTAL + 31);
-        setPosY(GameField.getRoadInfo().getSpawn().getPosY()*Config.TILE_VERTICAL);
+        setPosX(GameField.getRoadInfo().getSpawn().getPosX()*Config.TILE_HORIZONTAL + Config.TILE_HORIZONTAL/2-1);
+        setPosY(GameField.getRoadInfo().getSpawn().getPosY()*Config.TILE_VERTICAL + Config.TILE_VERTICAL);
     }
 
     public abstract double getMaxHealth ();
