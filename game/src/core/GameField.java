@@ -17,11 +17,12 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -241,7 +242,9 @@ public class GameField {
         while (!deletedTower.isEmpty()) towers.remove(deletedTower.poll());
     }
 
-    public void draw(GraphicsContext gc, GameField gameField) {
+    public void draw(GraphicsContext gc, GameField gameField, Label heartLabel, Label coinLabel, int playerHP, int playerFinance) {
+        heartLabel.setText(Integer.toString(playerHP));
+        coinLabel.setText(Integer.toString(playerFinance));
         //render 4 layers: background -> road -> treeRock -> spawn
         Render.renderMap(gc, gameField);
 
@@ -272,6 +275,5 @@ public class GameField {
         for (Tower tower : towers) {
             tower.draw(gc, gameField);
         }
-
     }
 }

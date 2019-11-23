@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import javafx.scene.canvas.Canvas;
@@ -75,32 +76,40 @@ public class GameStage {
     public static void playGame(Canvas canvas, Stage primaryStage, Scene theScene, GameField gameField, Group root, GraphicsContext gc){
         ToggleGroup towerToggle = new ToggleGroup();
         //Button
-        ImageView ivNormalTowerButton = new ImageView(GameField.getImageSheet().imageSheet.get(8*23 + 19));
-        ToggleButton normalTowerButton = new ToggleButton("",ivNormalTowerButton);
+        ToggleButton normalTowerButton = new ToggleButton("",new ImageView(GameField.getImageSheet().imageSheet.get(8*23 + 19)));
         normalTowerButton.setLayoutY(Config.TILE_VERTICAL*Config.MAP_HEIGHT);
 
         //Button
-        ImageView ivMachineGunTowerButton = new ImageView(GameField.getImageSheet().imageSheet.get(10*23 + 20));
-        ToggleButton machineGunTowerButton = new ToggleButton("", ivMachineGunTowerButton);
+        ToggleButton machineGunTowerButton = new ToggleButton("", new ImageView(GameField.getImageSheet().imageSheet.get(10*23 + 20)));
         machineGunTowerButton.setLayoutX(Config.TILE_HORIZONTAL+22);
         machineGunTowerButton.setLayoutY(Config.TILE_VERTICAL*Config.MAP_HEIGHT);
 
         //Button
-        ImageView ivRocketTowerButton = new ImageView(GameField.getImageSheet().imageSheet.get(8*23 + 20));
-        ToggleButton rocketTowerButton = new ToggleButton("", ivRocketTowerButton);
+        ToggleButton rocketTowerButton = new ToggleButton("", new ImageView(GameField.getImageSheet().imageSheet.get(8*23 + 20)));
         rocketTowerButton.setLayoutX((Config.TILE_HORIZONTAL+22)*2);
         rocketTowerButton.setLayoutY(Config.TILE_VERTICAL*Config.MAP_HEIGHT);
 
         //Button
-        ImageView ivSniperTowerButton = new ImageView(GameField.getImageSheet().imageSheet.get(10*23 + 19));
-        ToggleButton sniperTowerButton = new ToggleButton("", ivSniperTowerButton);
+        ToggleButton sniperTowerButton = new ToggleButton("", new ImageView(GameField.getImageSheet().imageSheet.get(10*23 + 19)));
         sniperTowerButton.setLayoutX((Config.TILE_HORIZONTAL+22)*3);
         sniperTowerButton.setLayoutY(Config.TILE_VERTICAL*Config.MAP_HEIGHT);
+
+        //Upgrade Button
+        ToggleButton upgradeTowerButton = new ToggleButton("", new ImageView(GameField.getImageSheet().imageSheet.get(23*3 + 16)));
+        upgradeTowerButton.setLayoutX((Config.TILE_HORIZONTAL+22)*4);
+        upgradeTowerButton.setLayoutY(Config.TILE_VERTICAL*Config.MAP_HEIGHT);
+
+        //Sell Button
+        ToggleButton sellTowerButton = new ToggleButton("", new ImageView(GameField.getImageSheet().imageSheet.get(23*3 + 17)));
+        sellTowerButton.setLayoutX((Config.TILE_HORIZONTAL+22)*5);
+        sellTowerButton.setLayoutY(Config.TILE_VERTICAL*Config.MAP_HEIGHT);
 
         normalTowerButton.setToggleGroup(towerToggle);
         machineGunTowerButton.setToggleGroup(towerToggle);
         rocketTowerButton.setToggleGroup(towerToggle);
         sniperTowerButton.setToggleGroup(towerToggle);
+        upgradeTowerButton.setToggleGroup(towerToggle);
+        sellTowerButton.setToggleGroup(towerToggle);
 
         Label[] towerLabel = {
                 new Label("$" + Config.NORMAL_TOWER_COST),
@@ -111,22 +120,28 @@ public class GameStage {
         int id = 0;
         for (Label label : towerLabel) {
             label.setFont(new Font(32));
-            label.setLayoutX(24 + id++ * (Config.TILE_HORIZONTAL+22));
+            label.setLayoutX(15 + id++ * (Config.TILE_HORIZONTAL+22));
             label.setLayoutY(Config.TILE_VERTICAL*Config.MAP_HEIGHT + 75);
             root.getChildren().add(label);
         }
 
-        Label heartLabel = new Label("");
-        root.getChildren().addAll(normalTowerButton, machineGunTowerButton, rocketTowerButton, sniperTowerButton);
+        Label heartLabel = new Label(Integer.toString(playerHP), new ImageView("Graphic/heart.png"));
+        heartLabel.setLayoutX(Config.TILE_HORIZONTAL*(Config.MAP_WIDTH-2));
+        heartLabel.setLayoutY(Config.TILE_VERTICAL*Config.MAP_HEIGHT);
+
+        Label coinLabel = new Label(Integer.toString(playerFinance), new ImageView("Graphic/coin.png"));
+        coinLabel.setLayoutX(Config.TILE_HORIZONTAL*(Config.MAP_WIDTH-4));
+        coinLabel.setLayoutY(Config.TILE_VERTICAL*Config.MAP_HEIGHT);
+        root.getChildren().addAll(normalTowerButton, machineGunTowerButton, rocketTowerButton, sniperTowerButton, upgradeTowerButton, sellTowerButton, heartLabel, coinLabel);
 
         AnimationTimer timer = new AnimationTimer() {
             long time = System.nanoTime();
 
             @Override
             public void handle(long now) {
-                GameController.mouseClicked(canvas, theScene, gameField, root, gc, towerToggle, normalTowerButton, machineGunTowerButton, rocketTowerButton, sniperTowerButton);
+                GameController.mouseClicked(canvas, theScene, gameField, root, gc, towerToggle, normalTowerButton, machineGunTowerButton, rocketTowerButton, sniperTowerButton, upgradeTowerButton, sellTowerButton);
                 gameField.update(now - time);
-                gameField.draw(gc, gameField);
+                gameField.draw(gc, gameField, heartLabel, coinLabel, playerHP, playerFinance);
                 gameField.gameOver();
                 //if(player don't play more, click exit button to exit the game) GameStage.closeWindow(primaryStage);
             }
@@ -137,6 +152,7 @@ public class GameStage {
 
     public static boolean hasEnoughMoney(int cost) {
         if (playerFinance >= cost) return true;
+        System.out.println("DON'T HAVE ENOUGH MONEY DUDE!!");
         return false;
     }
 
