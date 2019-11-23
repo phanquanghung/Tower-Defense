@@ -36,8 +36,24 @@ public abstract class Enemy extends AbstractEntity {
     public Enemy (){}
 
     public void setFirstPos() {
-        setPosX(GameField.getRoadInfo().getSpawn().getPosX()*Config.TILE_HORIZONTAL + Config.TILE_HORIZONTAL/2-1);
-        setPosY(GameField.getRoadInfo().getSpawn().getPosY()*Config.TILE_VERTICAL + Config.TILE_VERTICAL);
+        switch (getDirection()){
+            case UP:
+                setPosX(GameField.getRoadInfo().getSpawn().getPosX()*Config.TILE_HORIZONTAL + Config.TILE_HORIZONTAL/2-1);
+                setPosY(GameField.getRoadInfo().getSpawn().getPosY()*Config.TILE_VERTICAL + Config.TILE_VERTICAL);
+                break;
+            case DOWN:
+                setPosX(GameField.getRoadInfo().getSpawn().getPosX()*Config.TILE_HORIZONTAL - Config.TILE_HORIZONTAL/2-1);
+                setPosY(GameField.getRoadInfo().getSpawn().getPosY()*Config.TILE_VERTICAL - Config.TILE_VERTICAL);
+                break;
+            case LEFT:
+                setPosX(GameField.getRoadInfo().getSpawn().getPosX()*Config.TILE_HORIZONTAL + Config.TILE_HORIZONTAL);
+                setPosY(GameField.getRoadInfo().getSpawn().getPosY()*Config.TILE_VERTICAL + Config.TILE_VERTICAL/2+1);
+                break;
+            case RIGHT:
+                setPosX(GameField.getRoadInfo().getSpawn().getPosX()*Config.TILE_HORIZONTAL - Config.TILE_HORIZONTAL);
+                setPosY(GameField.getRoadInfo().getSpawn().getPosY()*Config.TILE_VERTICAL - Config.TILE_VERTICAL/2+1);
+                break;
+        }
     }
 
     public abstract double getMaxHealth ();
@@ -114,7 +130,7 @@ public abstract class Enemy extends AbstractEntity {
 
         switch (getDirection()) {
             case LEFT:
-                angle = 30;
+                angle = 180;
                 break;
             case UP:
                 angle = 270;
@@ -247,8 +263,8 @@ public abstract class Enemy extends AbstractEntity {
         double x = getPosX();
         double y = getPosY();
 //        System.out.println("x = " + x + " y = " + y);
-        if (x < - getSpeed()*100 || x > Config.CANVAS_WIDTH + getSpeed()) return true;
-        else if (y < - getSpeed()*100 || y > Config.CANVAS_HEIGHT + getSpeed()) return true;
+        if (x < - getSpeed()*100 || x > Config.CANVAS_WIDTH + getSpeed()*100) return true;
+        else if (y < - getSpeed()*100 || y > Config.CANVAS_HEIGHT + getSpeed()*100) return true;
         return false;
     }
     public void update(GameStage gameStage) {

@@ -1,0 +1,12 @@
+Map/Level/Level0/background_lv0.txt Map/Level/Level0/road_lv0.txt Map/Level/Level0/rockTree_lv0.txt Map/Level/Level0/spawn_lv0.txt
+Spawn 9 8
+Target 2 15
+Direction UP
+Wave 1
+NormalEnemy 5
+Wave 2
+SmallerEnemy 10
+Wave 3
+TankerEnemy 5
+Wave 4
+BossEnemy 1

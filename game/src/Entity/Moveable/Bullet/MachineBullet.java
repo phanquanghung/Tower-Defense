@@ -10,4 +10,9 @@ public class MachineBullet extends Bullet {
         setImg(GameField.getImageSheet().imageSheet.get(11*23 + 20));
         setInfo(Config.MACHINE_GUN_BULLET_SPEED, Config.MACHINE_GUN_BULLET_STRENGTH);
     }
+
+    @Override
+    public void updateBullet(){
+        setDamage(getDamage() + Config.MACHINE_GUN_BULLET_UPDATE);
+    }
 }

@@ -14,7 +14,7 @@ public class NormalEnemy extends Enemy{
         this.reward = Config.NORMAL_ENEMY_REWARD;
         //setImg(GameField.getImageSheet().imageSheet.get(245));
         setup(GameField.getImageSheet().imageSheet.get(245));
-        setFirstPos();
+//        setFirstPos();
     }
 
     @Override

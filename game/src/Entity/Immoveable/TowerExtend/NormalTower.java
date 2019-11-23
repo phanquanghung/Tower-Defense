@@ -11,10 +11,10 @@ import core.GameStage;
 public class NormalTower extends Tower {
 
     public NormalTower() {
-        super(Config.NORMAL_TOWER_SPEED, Config.NORMAL_TOWER_RANGE, Config.NORMAL_BULLET_STRENGTH);
+        super(Config.NORMAL_TOWER_SPEED, Config.NORMAL_TOWER_RANGE, Config.NORMAL_BULLET_UPDATE_COST);
         setImg(GameField.getImageSheet().imageSheet.get(8*23 + 19), GameField.getImageSheet().imageSheet.get(7*23 + 19));
         setCost(Config.NORMAL_TOWER_COST);
-        GameStage.buyTower((int)getCost());
+        GameStage.buy((int)getCost());
     }
 
     protected long tickDown = 0;
@@ -28,5 +28,12 @@ public class NormalTower extends Tower {
             bullet.setEnemy(enemy);
             GameField.addBullet(bullet);
         }
+    }
+
+    @Override
+    public void updateTower() {
+        super.updateTower();
+        GameStage.buy((int)Config.NORMAL_BULLET_UPDATE_COST);
+        setUpdated(true);
     }
 }

@@ -12,8 +12,9 @@ public class RocketBullet extends Bullet{
         setInfo(Config.ROCKET_BULLET_SPEED, Config.ROCKET_BULLET_STRENGTH);
     }
 
-    public void rocketBoom (GraphicsContext gc) {
-        gc.drawImage(GameField.getImageSheet().imageSheet.get(22), getEnemy().getPosX(), getEnemy().getPosY());
+    @Override
+    public void updateBullet(){
+        setDamage(getDamage() + Config.ROCKET_BULLET_UPDATE);
     }
 
     public double findAngle(){

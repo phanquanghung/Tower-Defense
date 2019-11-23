@@ -68,7 +68,7 @@ public class GameStage {
         playerFinance += money;
     }
 
-    public static void buyTower(int money) {
+    public static void buy(int money) {
         playerFinance -= money;
     }
 
@@ -166,10 +166,21 @@ public class GameStage {
         gameField.loadMap(mapData[0], mapData[1], mapData[2], mapData[3]);
 
         ArrayList<Queue<Enemy>> waitingEnemy = new ArrayList<>();
+
+        Enemy.Direction defaultDirection = null;
         int wave = 0;
         while (sc.hasNext()){
             switch (sc.next()){
-                case "wave":
+                case "Direction":
+                    switch (sc.next()){
+                        case "UP": defaultDirection = Enemy.Direction.UP; break;
+                        case "DOWN": defaultDirection = Enemy.Direction.DOWN; break;
+                        case "RIGHT": defaultDirection = Enemy.Direction.RIGHT; break;
+                        case "LEFT" : defaultDirection = Enemy.Direction.LEFT; break;
+                    }
+                    System.out.println("Hello");
+                    break;
+                case "Wave":
                     wave = sc.nextInt();
                     while (wave > waitingEnemy.size() - 1) waitingEnemy.add(new LinkedList<>());
                     break;
@@ -177,7 +188,8 @@ public class GameStage {
                     int number = sc.nextInt();
                     while (number-->0){
                         Enemy enemy = new NormalEnemy();
-                        enemy.setDirection(Enemy.Direction.UP);
+                        enemy.setDirection(defaultDirection);
+                        enemy.setFirstPos();
                         waitingEnemy.get(wave).add(enemy);
                     }
                     break;
@@ -186,7 +198,8 @@ public class GameStage {
                     int number = sc.nextInt();
                     while (number-->0){
                         Enemy enemy = new SmallerEnemy();
-                        enemy.setDirection(Enemy.Direction.UP);
+                        enemy.setDirection(defaultDirection);
+                        enemy.setFirstPos();
                         waitingEnemy.get(wave).add(enemy);
                     }
                     break;
@@ -195,7 +208,8 @@ public class GameStage {
                     int number = sc.nextInt();
                     while (number-->0){
                         Enemy enemy = new TankerEnemy();
-                        enemy.setDirection(Enemy.Direction.UP);
+                        enemy.setDirection(defaultDirection);
+                        enemy.setFirstPos();
                         waitingEnemy.get(wave).add(enemy);
                     }
                     break;
@@ -204,12 +218,13 @@ public class GameStage {
                     int number = sc.nextInt();
                     while (number-->0){
                         Enemy enemy = new BossEnemy();
-                        enemy.setDirection(Enemy.Direction.UP);
+                        enemy.setDirection(defaultDirection);
+                        enemy.setFirstPos();
                         waitingEnemy.get(wave).add(enemy);
                     }
                     break;
                 }
-                case "spawn":
+                case "Spawn":
                     int [] dataS = new int [2];
                     dataS[0] = sc.nextInt();
                     dataS[1] = sc.nextInt();
@@ -218,7 +233,7 @@ public class GameStage {
                     spawn.setPosXY(dataS[1], dataS[0]);
                     GameField.getRoadInfo().setSpawn(spawn);
                     break;
-                case "target":
+                case "Target":
                     int [] dataT = new int [2];
                     dataT[0] = sc.nextInt();
                     dataT[1] = sc.nextInt();

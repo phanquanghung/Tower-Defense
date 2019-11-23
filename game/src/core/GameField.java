@@ -42,6 +42,7 @@ public class GameField {
     private static Queue<Bullet> removingBullet = new LinkedList<>(); //Bullet has been shoot and hit the target
     private static ArrayList<Enemy> enemies = new ArrayList<>(); //Enemies array
     private static Queue<Enemy> deathEnemy = new LinkedList<>(); //Enemies has been killed or go through the map
+    private static Queue<Tower> deletedTower = new LinkedList<>(); //Tower that has been deleted
 
     private static int wave = 1; //wave order
     private static Road roadInfo = new Road();
@@ -58,6 +59,10 @@ public class GameField {
 
     public static Queue<Enemy> getDeathEnemy() {
         return deathEnemy;
+    }
+
+    public static Queue<Tower> getDeletedTower() {
+        return deletedTower;
     }
 
     public static Queue<Bullet> getRemovingBullet() {
@@ -233,7 +238,7 @@ public class GameField {
 
         while (!deathEnemy.isEmpty()) enemies.remove(deathEnemy.poll());
         while (!removingBullet.isEmpty()) bullets.remove(removingBullet.poll());
-
+        while (!deletedTower.isEmpty()) towers.remove(deletedTower.poll());
     }
 
     public void draw(GraphicsContext gc, GameField gameField) {

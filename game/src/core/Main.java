@@ -13,7 +13,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         //load game information (load in a Object name gameField)
-        GameField gameField = GameStage.loadGameField("src/Level/Level0.txt");
+        //TODO: level menu, if level 0(tutorial) filename is "Map/Level/Level0.txt", if level 1 filename is "Map/Level/Level1.txt"
+        GameField gameField = GameStage.loadGameField("Map/Level/Level0.txt");
         //Create new Window
         Render renderGame = new Render();
         Group root = new Group();

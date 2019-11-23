@@ -1,5 +1,6 @@
 package Entity.Immoveable;
 
+import Entity.Moveable.Bullet.Bullet;
 import Entity.Moveable.Enemy.Enemy;
 import Graphic.Render;
 import core.GameField;
@@ -14,7 +15,8 @@ public abstract class Tower implements TowerInterface{
     private double speed;
     private double range;
     private long cost;
-    private double strength;
+    private long updateCost;
+    private boolean updated = false;
     private Image image, stand;
     private double posX;
     private double posY;
@@ -22,11 +24,27 @@ public abstract class Tower implements TowerInterface{
     protected Enemy shootingEnemy = null;
     protected Queue<Enemy> enemyQueue;
 
-    public Tower(double speed, double range, double strength) {
+    public Tower(double speed, double range, long cost) {
         setRange(range);
         setSpeed(speed);
-        setStrength(strength);
+        setUpdateCost(cost);
         enemyQueue = new LinkedList<>();
+    }
+
+    public boolean isUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(boolean updated) {
+        this.updated = updated;
+    }
+
+    public void setUpdateCost(long updateCost) {
+        this.updateCost = updateCost;
+    }
+
+    public long getUpdateCost() {
+        return updateCost;
     }
 
     public void setCurAngle(double curAngle) {
@@ -71,16 +89,8 @@ public abstract class Tower implements TowerInterface{
         return speed;
     }
 
-    public double getStrength() {
-        return strength;
-    }
-
     public void setSpeed(double speed) {
         this.speed = speed;
-    }
-
-    public void setStrength(double strength) {
-        this.strength = strength;
     }
 
     public void setRange(double range) {
@@ -105,6 +115,21 @@ public abstract class Tower implements TowerInterface{
     @Override
     public double getPosY() {
         return posY;
+    }
+
+    @Override
+    public void deleteTower() {
+        GameField.getDeletedTower().add(this);
+    }
+
+    @Override
+    public void updateTower() {
+
+    }
+
+    @Override
+    public void updateBullet(Bullet bullet) {
+        bullet.updateBullet();
     }
 
     @Override

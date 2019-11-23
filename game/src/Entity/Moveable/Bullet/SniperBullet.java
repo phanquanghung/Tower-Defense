@@ -10,4 +10,9 @@ public class SniperBullet extends Bullet {
         setImg(GameField.getImageSheet().imageSheet.get(11*23 + 19));
         setInfo(Config.SNIPER_BULLET_SPEED, Config.SNIPER_BULLET_STRENGTH);
     }
+
+    @Override
+    public void updateBullet(){
+        setDamage(getDamage() + Config.SNIPER_BULLET_UPDATE);
+    }
 }

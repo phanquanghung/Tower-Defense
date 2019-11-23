@@ -11,9 +11,9 @@ public final class Config {
     public static final String TITLE = "Tower Defense";
 
     //size of the map ~.~
-    public static final int MAP_WIDTH = 13;
+    public static final int MAP_WIDTH = 16;
 
-    public static final int MAP_HEIGHT = 7;
+    public static final int MAP_HEIGHT = 10;
 
     //edge of the sprite in pixel
     public static final int TILE_HORIZONTAL = 64;
@@ -36,15 +36,23 @@ public final class Config {
 
     //region Bullet
     public static final long NORMAL_BULLET_STRENGTH = 15;
+    public static final long NORMAL_BULLET_UPDATE = 5;
+    public static final long NORMAL_BULLET_UPDATE_COST = 30;
     public static final double NORMAL_BULLET_SPEED = 13;
 
-    public static final long MACHINE_GUN_BULLET_STRENGTH = 10;
+    public static final long MACHINE_GUN_BULLET_STRENGTH = 8;
+    public static final long MACHINE_GUN_BULLET_UPDATE = 2;
+    public static final long MACHINE_GUN_BULLET_UPDATE_COST = 50;
     public static final double MACHINE_GUN_BULLET_SPEED = 15;
 
     public static final long ROCKET_BULLET_STRENGTH = 30;
+    public static final long ROCKET_BULLET_UPDATE = 10;
+    public static final long ROCKET_BULLET_UPDATE_COST = 90;
     public static final double ROCKET_BULLET_SPEED = 12;
 
     public static final long SNIPER_BULLET_STRENGTH = 75;
+    public static final long SNIPER_BULLET_UPDATE = 15;
+    public static final long SNIPER_BULLET_UPDATE_COST = 125;
     public static final double SNIPER_BULLET_SPEED = 12;
     //endregion
 
