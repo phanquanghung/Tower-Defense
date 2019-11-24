@@ -16,38 +16,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+
+import java.io.File;
 
 /**
  * This class manage input event from player
  */
 public class GameController {
-    /**
-     * Mouse down handler.
-     *
-     * @param mouseEvent the mouse button you press down.
-     */
-    final void mouseDownHandler(MouseEvent mouseEvent) {
-//		mouseEvent.getButton(); // which mouse button?
-//		// Screen coordinate. Remember to convert to field coordinate
-//		drawer.screenToFieldPosX(mouseEvent.getX());
-//		drawer.screenToFieldPosY(mouseEvent.getY());
-    }
-
-    /**
-     * Mouse up handler.
-     *
-     * @param mouseEvent the mouse button you release up.
-     */
-    final void mouseUpHandler(MouseEvent mouseEvent) {
-//		mouseEvent.getButton(); // which mouse button?
-//		// Screen coordinate. Remember to convert to field coordinate
-//		drawer.screenToFieldPosX(mouseEvent.getX());
-//		drawer.screenToFieldPosY(mouseEvent.getY());
-    }
 
     static void menu(Canvas canvas, Scene theScene, GameField gameField, Group root, GraphicsContext gc, Stage primaryStage) {
         Image title = new Image("Graphic/title.png");
@@ -57,9 +37,14 @@ public class GameController {
         play.setLayoutX(0.5 * Config.TILE_HORIZONTAL * (Config.MAP_WIDTH - 1));
         play.setLayoutY(0.5 * Config.TILE_VERTICAL * (Config.MAP_HEIGHT - 1));
         primaryStage.show();
+
+        Media gamePlay = new Media(new File("src/Graphic/menu.mp3").toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(gamePlay);
+        mediaPlayer.setAutoPlay(true);
         play.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                mediaPlayer.pause();
                 GameStage.playGame(canvas, primaryStage, theScene, gameField, root, gc);
                 play.setVisible(false);
                 play.setDisable(true);

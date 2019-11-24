@@ -12,6 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -134,6 +136,9 @@ public class GameStage {
         coinLabel.setLayoutY(Config.TILE_VERTICAL*Config.MAP_HEIGHT);
         root.getChildren().addAll(normalTowerButton, machineGunTowerButton, rocketTowerButton, sniperTowerButton, upgradeTowerButton, sellTowerButton, heartLabel, coinLabel);
 
+        Media gamePlay = new Media(new File("src/Graphic/gameplay.mp3").toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(gamePlay);
+
         AnimationTimer timer = new AnimationTimer() {
             long time = System.nanoTime();
 
@@ -143,7 +148,8 @@ public class GameStage {
                 gameField.update(now - time);
                 gameField.draw(gc, gameField, heartLabel, coinLabel, playerHP, playerFinance);
                 gameField.gameOver();
-                //if(player don't play more, click exit button to exit the game) GameStage.closeWindow(primaryStage);
+
+                mediaPlayer.setAutoPlay(true);
             }
         };
         timer.start();

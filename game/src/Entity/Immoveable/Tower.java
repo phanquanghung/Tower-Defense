@@ -4,6 +4,7 @@ import Entity.Moveable.Bullet.Bullet;
 import Entity.Moveable.Enemy.Enemy;
 import Graphic.Render;
 import core.GameField;
+import core.GameStage;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -120,6 +121,7 @@ public abstract class Tower implements TowerInterface{
     @Override
     public void deleteTower() {
         GameField.getDeletedTower().add(this);
+        GameStage.earnMoney((int)this.getCost()*80/100);
     }
 
     @Override
