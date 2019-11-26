@@ -13,7 +13,7 @@ public class MachineGunTower extends Tower {
     public MachineGunTower() {
         super(Config.MACHINE_GUN_TOWER_SPEED, Config.MACHINE_GUN_TOWER_RANGE, Config.MACHINE_GUN_BULLET_UPDATE_COST);
         //TODO: find the imageSheet index for machine gun
-        setImg(GameField.getImageSheet().imageSheet.get(10*23 + 20), GameField.getImageSheet().imageSheet.get(7*23 + 20));
+        setImg(GameField.getImageSheet().imageSheet.get(9*23 + 20), GameField.getImageSheet().imageSheet.get(7*23 + 20));
         setCost(Config.MACHINE_GUN_TOWER_COST);
         GameStage.buy((int)getCost());
     }
@@ -45,6 +45,7 @@ public class MachineGunTower extends Tower {
     public void updateTower() {
         super.updateTower();
         GameStage.buy((int)Config.MACHINE_GUN_BULLET_UPDATE_COST);
+        setImg(GameField.getImageSheet().imageSheet.get(10*23 + 20), GameField.getImageSheet().imageSheet.get(7*23 + 22));
         setUpdated(true);
     }
 }

@@ -34,6 +34,7 @@ public class NormalTower extends Tower {
     public void updateTower() {
         super.updateTower();
         GameStage.buy((int)Config.NORMAL_BULLET_UPDATE_COST);
+        setImg(GameField.getImageSheet().imageSheet.get(9*23 + 19), GameField.getImageSheet().imageSheet.get(7*23 + 19));
         setUpdated(true);
     }
 }

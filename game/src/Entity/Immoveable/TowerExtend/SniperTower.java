@@ -34,6 +34,7 @@ public class SniperTower extends Tower {
     public void updateTower() {
         super.updateTower();
         GameStage.buy((int)Config.SNIPER_BULLET_UPDATE_COST);
+        setImg(GameField.getImageSheet().imageSheet.get(10*23 + 19), GameField.getImageSheet().imageSheet.get(7*23 + 21));
         setUpdated(true);
     }
 }

@@ -1,1 +1,0 @@
-package Entity.Immoveable;public class Mountain implements GameTile  {}
