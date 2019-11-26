@@ -13,12 +13,15 @@ import Entity.Moveable.Enemy.*;
 import Graphic.ImageSheet;
 import Graphic.Render;
 import Graphic.TileMap;
+import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -176,15 +179,19 @@ public class GameField {
         tower.printMapData();
     }
 
-    public void gameOver() {
+    public void gameOver(Canvas canvas, Scene theScene, GameField gameField, Group root, GraphicsContext gc, Stage primaryStage, MediaPlayer mediaPlayer) {
         //TODO: return to menu
         gameStage.gameOver();
         if (gameStage.getStatus() == GameStage.Status.WIN) {
             //GameController.menu(theScene, gameField, root, gc, stage);
             System.out.println("YOU WIN! BRO!!!");
+//            mediaPlayer.pause();
+//            GameController.menu(canvas, theScene, gameField, root, gc, primaryStage);
         }
         else if (gameStage.getStatus() == GameStage.Status.LOSS){
             System.out.println("YOU LOSS! BRO!!!");
+//            mediaPlayer.pause();
+//            GameController.menu(canvas, theScene, gameField, root, gc, primaryStage);
         }
     }
 
@@ -242,9 +249,10 @@ public class GameField {
         while (!deletedTower.isEmpty()) towers.remove(deletedTower.poll());
     }
 
-    public void draw(GraphicsContext gc, GameField gameField, Label heartLabel, Label coinLabel, int playerHP, int playerFinance) {
+    public void draw(GraphicsContext gc, GameField gameField, Label heartLabel, Label coinLabel, Label waveLabel, int playerHP, int playerFinance) {
         heartLabel.setText(Integer.toString(playerHP));
         coinLabel.setText(Integer.toString(playerFinance));
+        waveLabel.setText(Integer.toString(GameField.getWave()));
         //render 4 layers: background -> road -> treeRock -> spawn
         Render.renderMap(gc, gameField);
 

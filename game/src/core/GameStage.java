@@ -5,6 +5,8 @@ import Entity.Immoveable.RoadExtend.Target;
 import Entity.Moveable.Enemy.*;
 import core.Config;
 import javafx.animation.AnimationTimer;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
@@ -34,7 +36,7 @@ import java.util.*;
 public class GameStage {
     private static int playerHP = Config.GAME_HEART;
     private static int playerFinance = Config.GAME_START_MONEY;
-    protected Status status = Status.RUNNING;
+    private static Status status = Status.RUNNING;
 
     enum Status {
         PAUSE, WIN, LOSS, RUNNING;
@@ -47,7 +49,7 @@ public class GameStage {
         this.status = status;
     }
 
-    public Status getStatus() {
+    public static Status getStatus() {
         return status;
     }
 
@@ -76,6 +78,9 @@ public class GameStage {
     }
 
     public static void playGame(Canvas canvas, Stage primaryStage, Scene theScene, GameField gameField, Group root, GraphicsContext gc){
+        playerFinance = Config.GAME_START_MONEY;
+        playerHP = Config.GAME_HEART;
+
         ToggleGroup towerToggle = new ToggleGroup();
         //Button
         ToggleButton normalTowerButton = new ToggleButton("",new ImageView(GameField.getImageSheet().imageSheet.get(8*23 + 19)));
@@ -130,25 +135,53 @@ public class GameStage {
         Label heartLabel = new Label(Integer.toString(playerHP), new ImageView("Graphic/heart.png"));
         heartLabel.setLayoutX(Config.TILE_HORIZONTAL*(Config.MAP_WIDTH-2));
         heartLabel.setLayoutY(Config.TILE_VERTICAL*Config.MAP_HEIGHT);
+        heartLabel.setFont(new Font(32));
 
         Label coinLabel = new Label(Integer.toString(playerFinance), new ImageView("Graphic/coin.png"));
         coinLabel.setLayoutX(Config.TILE_HORIZONTAL*(Config.MAP_WIDTH-4));
         coinLabel.setLayoutY(Config.TILE_VERTICAL*Config.MAP_HEIGHT);
-        root.getChildren().addAll(normalTowerButton, machineGunTowerButton, rocketTowerButton, sniperTowerButton, upgradeTowerButton, sellTowerButton, heartLabel, coinLabel);
+        coinLabel.setFont(new Font(32));
+
+        Label waveLabel = new Label("Wave " + GameField.getWave(), new ImageView("Graphic/wave.png"));
+        waveLabel.setLayoutX(Config.TILE_HORIZONTAL*(Config.MAP_WIDTH-6));
+        waveLabel.setLayoutY(Config.TILE_VERTICAL*Config.MAP_HEIGHT);
+        waveLabel.setFont(new Font(32));
+
 
         Media gamePlay = new Media(new File("src/Graphic/gameplay.mp3").toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(gamePlay);
 
+        Button pauseButton = new Button("", new ImageView(GameField.getImageSheet().imageSheet.get(23*3 + 18)));
+        pauseButton.setLayoutX((Config.TILE_HORIZONTAL+22)*6);
+        pauseButton.setLayoutY(Config.TILE_VERTICAL*Config.MAP_HEIGHT);
+        pauseButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (getStatus() == Status.RUNNING)
+                gameField.pauseGame();
+                else gameField.unpauseGame();
+                
+//                    status = Status.LOSS;
+//                    mediaPlayer.pause();
+//
+//                    GameController.menu(canvas, theScene, gameField, root, gc, primaryStage);
+            }
+        });
+
+        root.getChildren().addAll(normalTowerButton, machineGunTowerButton, rocketTowerButton, sniperTowerButton, pauseButton, upgradeTowerButton, sellTowerButton, heartLabel, coinLabel, waveLabel);
+
         AnimationTimer timer = new AnimationTimer() {
             long time = System.nanoTime();
-
             @Override
             public void handle(long now) {
                 GameController.mouseClicked(canvas, theScene, gameField, root, gc, towerToggle, normalTowerButton, machineGunTowerButton, rocketTowerButton, sniperTowerButton, upgradeTowerButton, sellTowerButton);
                 gameField.update(now - time);
-                gameField.draw(gc, gameField, heartLabel, coinLabel, playerHP, playerFinance);
-                gameField.gameOver();
-
+                gameField.draw(gc, gameField, heartLabel, coinLabel, waveLabel, playerHP, playerFinance);
+                gameField.gameOver(canvas, theScene, gameField, root, gc, primaryStage, mediaPlayer);
+//                if (getStatus() == Status.WIN || getStatus() == Status.LOSS) {
+//                    this.stop();
+//                    status = Status.RUNNING;
+//                }
                 mediaPlayer.setAutoPlay(true);
             }
         };
