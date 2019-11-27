@@ -178,11 +178,12 @@ public class GameStage {
                 gameField.update(now - time);
                 gameField.draw(gc, gameField, heartLabel, coinLabel, waveLabel, playerHP, playerFinance);
                 gameField.gameOver(canvas, theScene, gameField, root, gc, primaryStage, mediaPlayer);
-//                if (getStatus() == Status.WIN || getStatus() == Status.LOSS) {
-//                    this.stop();
-//                    status = Status.RUNNING;
-//                }
                 mediaPlayer.setAutoPlay(true);
+                if (getStatus() == Status.WIN || getStatus() == Status.LOSS) {
+                    status = Status.RUNNING;
+                    this.stop();
+                    GameController.menu(canvas, theScene, gameField, root, gc, primaryStage);
+                }
             }
         };
         timer.start();

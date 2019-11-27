@@ -28,29 +28,94 @@ import java.io.File;
  * This class manage input event from player
  */
 public class GameController {
+    static GameField selectLevel(Canvas canvas, Scene theScene, GameField gameField, Group root, GraphicsContext gc, Stage primaryStage){
+
+        Button level0 = new Button("Tutorial");
+        root.getChildren().add(level0);
+        level0.setLayoutX(0.5 * Config.TILE_HORIZONTAL * (Config.MAP_WIDTH - 1) - 10);
+        level0.setLayoutY(0.5 * Config.TILE_VERTICAL * (Config.MAP_HEIGHT - 1) + 64);
+
+        Button level1 = new Button("Level 1");
+        root.getChildren().add(level1);
+        level1.setLayoutX(0.5 * Config.TILE_HORIZONTAL * (Config.MAP_WIDTH - 1) - 5);
+        level1.setLayoutY(0.5 * Config.TILE_VERTICAL * (Config.MAP_HEIGHT - 1) + 128);
+        primaryStage.show();
+        final String[] level = new String[1];
+        level0.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                level[0] = "Map/Level/Level0.txt";
+//                levelselected[0] = true;
+            }
+        });
+
+        level1.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                level[0] = "Map/Level/Level1.txt";
+//                levelselected[0] = true;
+            }
+        });
+        gameField = GameStage.loadGameField(level[0]);
+        return gameField;
+    }
 
     static void menu(Canvas canvas, Scene theScene, GameField gameField, Group root, GraphicsContext gc, Stage primaryStage) {
+        final boolean[] levelselected = {false};
         Image title = new Image("Graphic/title.png");
         gc.drawImage(title, 0, 0);
         Button play = new Button("PLAY");
         root.getChildren().add(play);
         play.setLayoutX(0.5 * Config.TILE_HORIZONTAL * (Config.MAP_WIDTH - 1));
         play.setLayoutY(0.5 * Config.TILE_VERTICAL * (Config.MAP_HEIGHT - 1));
+
+//        Button level0 = new Button("Tutorial");
+//        root.getChildren().add(level0);
+//        level0.setLayoutX(0.5 * Config.TILE_HORIZONTAL * (Config.MAP_WIDTH - 1) - 10);
+//        level0.setLayoutY(0.5 * Config.TILE_VERTICAL * (Config.MAP_HEIGHT - 1) + 64);
+//
+//        Button level1 = new Button("Level 1");
+//        root.getChildren().add(level1);
+//        level1.setLayoutX(0.5 * Config.TILE_HORIZONTAL * (Config.MAP_WIDTH - 1) - 5);
+//        level1.setLayoutY(0.5 * Config.TILE_VERTICAL * (Config.MAP_HEIGHT - 1) + 128);
         primaryStage.show();
 
         Media gamePlay = new Media(new File("src/Graphic/menu.mp3").toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(gamePlay);
         mediaPlayer.setAutoPlay(true);
-        play.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                mediaPlayer.pause();
-                GameStage.playGame(canvas, primaryStage, theScene, gameField, root, gc);
-                play.setVisible(false);
-                play.setDisable(true);
-            }
-        });
 
+//        level0.setOnAction(new EventHandler<ActionEvent>() {
+//
+//            @Override
+//            public void handle(ActionEvent event) {
+//                GameStage.loadGameField("Map/Level/Level0.txt");
+//                levelselected[0] = true;
+//            }
+//        });
+//
+//        level1.setOnAction(new EventHandler<ActionEvent>() {
+//
+//            @Override
+//            public void handle(ActionEvent event) {
+//                GameStage.loadGameField("Map/Level/Level1.txt");
+//                levelselected[0] = true;
+//            }
+//        });
+            play.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    mediaPlayer.pause();
+                    GameStage.playGame(canvas, primaryStage, theScene, gameField, root, gc);
+                    play.setVisible(false);
+                    play.setDisable(true);
+//                    level0.setVisible(false);
+//                    level0.setDisable(true);
+//                    level1.setVisible(false);
+//                    level1.setDisable(true);
+                }
+            });
     }
 
     static void mouseClicked(Canvas canvas, Scene theScene, GameField gameField, Group root, GraphicsContext gc, ToggleGroup towerToggle, ToggleButton normalTowerButton, ToggleButton machineGunTowerButton, ToggleButton rocketTowerButton, ToggleButton sniperTowerButton, ToggleButton upgradeTowerButton, ToggleButton sellTowerButton) {

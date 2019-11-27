@@ -27,6 +27,7 @@ public class Main extends Application {
         /*
         | Menu game + Game loop
          */
+        //gameField = GameController.selectLevel(canvas, theScene, gameField, root, gc, primaryStage);
         GameController.menu(canvas, theScene, gameField, root, gc, primaryStage);
     }
 
