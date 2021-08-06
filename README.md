@@ -4,7 +4,7 @@ Dự án trò chơi thủ thành (tower defense) của Nguyễn Mạnh Dũng và
 --------------------------------------------
 
 #### Author: 
-- heor2807
+- phanquanghung
 [Contact: [GitHub](https://github.com/heor2807) [Facebook](https://www.facebook.com/srw.king)]
 
 - manhdung20112000 
